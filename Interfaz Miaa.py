@@ -11,7 +11,6 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS para recortar el iframe y ocultar el footer "Built with Streamlit"
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
@@ -21,23 +20,6 @@ if vista_actual != 'home':
         padding-right: 0rem !important;
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
-    }
-    
-    /* Contenedor con overflow hidden para cortar la parte inferior del iframe donde sale el footer */
-    .iframe-crop-container {
-        width: 100%;
-        height: 890px;
-        overflow: hidden;
-        position: relative;
-    }
-    
-    .iframe-crop-container iframe {
-        width: 100%;
-        height: 960px;
-        border: none;
-        position: absolute;
-        top: 0;
-        left: 0;
     }
     """
 
@@ -323,6 +305,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.markdown('<div class="iframe-crop-container">', unsafe_allow_html=True)
-        st.components.v1.iframe(url_activa, height=960, scrolling=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+        st.components.v1.iframe(url_activa, height=950, scrolling=True)
