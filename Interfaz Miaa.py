@@ -4,11 +4,10 @@ from datetime import date
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
     page_icon="💧",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# Obtenemos la vista actual desde los parámetros de la URL de forma interna
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
@@ -28,6 +27,7 @@ st.markdown("""
     .block-container {
         padding-top: 1rem !important;
         padding-bottom: 1rem !important;
+        max-width: 100% !important;
     }
 
     .wave-background {
@@ -68,6 +68,8 @@ st.markdown("""
     .main-content {
         position: relative;
         z-index: 10;
+        max-width: 700px;
+        margin: 0 auto;
     }
 
     .grid-container {
@@ -172,6 +174,27 @@ st.markdown("""
         color: #38BDF8;
         text-decoration: none;
     }
+
+    /* Ocultar el marco blanco predeterminado de Streamlit para iframes y estirarlo al máximo */
+    iframe {
+        width: 100% !important;
+        border: none !important;
+        background: transparent !important;
+    }
+    
+    /* Estilo para el botón superior de retorno */
+    .stButton > button {
+        background-color: #132238 !important;
+        border: 1px solid #00A8FF !important;
+        color: #38BDF8 !important;
+        border-radius: 8px !important;
+        font-weight: 600 !important;
+        width: 100% !important;
+    }
+    .stButton > button:hover {
+        background-color: #00A8FF !important;
+        color: #FFFFFF !important;
+    }
     </style>
 
     <div class="wave-background">
@@ -191,7 +214,6 @@ if vista_actual == 'home':
 
     st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-    # Tarjetas exactas en cuadrícula HTML de 2 columnas con sus botones circulares originales integrados dentro
     cards_html = """
     <div class="grid-container">
         <div class="custom-card">
@@ -257,12 +279,15 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA DE LA APLICACIÓN SELECCIONADA (CARGA DENTRO DE LA MISMA PÁGINA)
+# VISTA INTERNA A PANTALLA COMPLETA (SIN MARCOS BLANCOS)
 # -------------------------------------------------------------------------
 else:
-    if st.button("⬅️ Volver al menú principal"):
-        st.query_params.clear()
-        st.rerun()
+    # Contenedor superior fijo para asegurar visibilidad total en móviles
+    col_back, col_space = st.columns([2, 5])
+    with col_back:
+        if st.button("⬅️ Volver al menú principal"):
+            st.query_params.clear()
+            st.rerun()
 
     urls = {
         'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
@@ -273,4 +298,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=850, scrolling=True)
+        st.components.v1.iframe(url_activa, height=900, scrolling=True)
