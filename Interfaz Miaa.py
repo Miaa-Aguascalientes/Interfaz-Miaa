@@ -184,7 +184,7 @@ st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
 # Logotipo
 logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Modelo Integral de Aguas de Aguascalientes</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
 # Encabezado
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
