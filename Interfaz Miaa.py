@@ -28,8 +28,8 @@ st.markdown("""
         padding-top: 1rem !important;
         padding-bottom: 1rem !important;
         max-width: 100% !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
     }
 
     .wave-background {
@@ -177,19 +177,23 @@ st.markdown("""
         text-decoration: none;
     }
 
-    /* ELIMINAR COMPLETAMENTE EL CONTENEDOR BLANCO Y BORDES DEL IFRAME */
+    /* MATAR EL CUADRO BLANCO Y LOS BORDES EXTERNOS DE STREAMLIT EN LOS IFRAMES */
     iframe {
         width: 100% !important;
         border: none !important;
         background: transparent !important;
     }
 
-    /* Eliminar cualquier sombra o borde generado por el contenedor del componente iframe de Streamlit */
-    div[data-testid="stIFrame"] {
+    /* Element container general que pone Streamlit alrededor del iframe */
+    div.element-container:has(iframe), 
+    div[data-testid="stIFrame"], 
+    div[data-testid="stIFrame"] > div,
+    iframe {
+        background: transparent !important;
         background-color: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 0 !important;
+        outline: none !important;
     }
     
     .stButton > button {
@@ -288,7 +292,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA A PANTALLA COMPLETA Y LIMPIA
+# VISTA INTERNA A PANTALLA COMPLETA
 # -------------------------------------------------------------------------
 else:
     col_back, col_space = st.columns([2, 5])
