@@ -1,6 +1,5 @@
 import streamlit as st
 
-# Configuración de la página
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
     page_icon="💧",
@@ -8,7 +7,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS para forzar 2 columnas fijas en celulares y escritorio
 st.markdown("""
     <style>
     .stApp {
@@ -16,20 +14,16 @@ st.markdown("""
         color: #FFFFFF;
         font-family: 'sans-serif';
     }
-    
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Contenedor de cuadrícula que fuerza 2 columnas en cualquier pantalla (celular o PC) */
     .grid-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 16px;
     }
-
-    /* Tarjetas individuales adaptadas para dos columnas compactas */
     .custom-card {
         background-color: #0D172B;
         border: 1px solid #1E2D4A;
@@ -42,12 +36,9 @@ st.markdown("""
         justify-content: space-between;
         min-height: 195px;
     }
-    
     .custom-card:hover {
         border-color: #00A8FF;
     }
-
-    /* Tarjeta inferior de estado */
     .status-card {
         background-color: #0D172B;
         border: 1px solid #1E2D4A;
@@ -59,7 +50,6 @@ st.markdown("""
         margin-top: 10px;
         margin-bottom: 20px;
     }
-
     .welcome-title {
         font-size: 24px;
         font-weight: 700;
@@ -67,13 +57,11 @@ st.markdown("""
         margin-top: 10px;
         margin-bottom: 2px;
     }
-    
     .welcome-subtitle {
         font-size: 13px;
         color: #94A3B8;
         margin-bottom: 16px;
     }
-
     .card-title {
         font-size: 13px;
         font-weight: 600;
@@ -81,14 +69,12 @@ st.markdown("""
         margin-top: 4px;
         margin-bottom: 4px;
     }
-
     .card-desc {
         font-size: 10px;
         color: #94A3B8;
         margin-bottom: 10px;
         line-height: 1.2;
     }
-
     .card-button {
         display: inline-flex;
         justify-content: center;
@@ -103,19 +89,16 @@ st.markdown("""
         font-size: 13px;
         margin: 0 auto;
     }
-
     .card-button:hover {
         background-color: #00A8FF;
         color: #FFFFFF;
     }
-    
     .footer-links {
         text-align: center;
         color: #64748B;
         font-size: 11px;
         margin-top: 20px;
     }
-    
     .footer-links a {
         color: #38BDF8;
         text-decoration: none;
@@ -123,83 +106,59 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 1. Logotipo de la empresa
+# Logotipo
 logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-st.markdown(f"""
-    <div style="text-align: center; padding-top: 10px;">
-        <img src="{logo_url}" width="150px" alt="Logo MIAA">
-        <p style="color: #64748B; font-size: 10px; margin-top: 4px;">Modelo Integral de Aguas de Aguascalientes</p>
-    </div>
-""", unsafe_allow_html=True)
+st.markdown(f'<div style="text-align: center; padding-top: 10px;"><img src="{logo_url}" width="150px" alt="Logo MIAA"><p style="color: #64748B; font-size: 10px; margin-top: 4px;">Modelo Integral de Aguas de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-# 2. Encabezado de bienvenida
-st.markdown("""
-    <div>
-        <div class="welcome-title">¡Bienvenido!</div>
-        <div class="welcome-subtitle">Selecciona una opción para continuar</div>
-    </div>
-""", unsafe_allow_html=True)
+# Encabezado
+st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-# Define tus direcciones web aquí:
+# Direcciones web de los botones
 url_registro = "https://tu-enlace-registro.com"
 url_scada = "https://tu-enlace-scada.com"
 url_op = "https://tu-enlace-consola.com"
 url_eventos = "https://tu-enlace-eventos.com"
 
-# 3. Cuadrícula de 2 columnas forzada por CSS (funciona en PC y celulares)
-st.markdown(f"""
-    <div class="grid-container">
-        <!-- Tarjeta 1: Registro de usuarios -->
-        <div class="custom-card">
-            <div>
-                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
-                <div class="card-title">Registro de usuarios</div>
-                <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
-            </div>
-            <div>
-                <a href="{url_registro}" target="_blank" class="card-button">➔</a>
-            </div>
+# Cuadrícula compacta de 2 columnas forzada por CSS
+cards_html = f"""
+<div class="grid-container">
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
+            <div class="card-title">Registro de usuarios</div>
+            <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
         </div>
-
-        <!-- Tarjeta 2: Sistema Scada -->
-        <div class="custom-card">
-            <div>
-                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
-                <div class="card-title">Sistema Scada</div>
-                <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
-            </div>
-            <div>
-                <a href="{url_scada}" target="_blank" class="card-button">➔</a>
-            </div>
-        </div>
-
-        <!-- Tarjeta 3: Consola de OP -->
-        <div class="custom-card">
-            <div>
-                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
-                <div class="card-title">Consola de OP</div>
-                <div class="card-desc">Visualiza y controla la operación del sistema</div>
-            </div>
-            <div>
-                <a href="{url_op}" target="_blank" class="card-button">➔</a>
-            </div>
-        </div>
-
-        <!-- Tarjeta 4: Eventos operativos -->
-        <div class="custom-card">
-            <div>
-                <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
-                <div class="card-title">Eventos operativos</div>
-                <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
-            </div>
-            <div>
-                <a href="{url_eventos}" target="_blank" class="card-button">➔</a>
-            </div>
-        </div>
+        <div><a href="{url_registro}" target="_blank" class="card-button">➔</a></div>
     </div>
-""", unsafe_allow_html=True)
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
+            <div class="card-title">Sistema Scada</div>
+            <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
+        </div>
+        <div><a href="{url_scada}" target="_blank" class="card-button">➔</a></div>
+    </div>
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
+            <div class="card-title">Consola de OP</div>
+            <div class="card-desc">Visualiza y controla la operación del sistema</div>
+        </div>
+        <div><a href="{url_op}" target="_blank" class="card-button">➔</a></div>
+    </div>
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
+            <div class="card-title">Eventos operativos</div>
+            <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
+        </div>
+        <div><a href="{url_eventos}" target="_blank" class="card-button">➔</a></div>
+    </div>
+</div>
+"""
+st.markdown(cards_html, unsafe_allow_html=True)
 
-# 4. Tarjeta inferior de Seguridad y confiabilidad
+# Tarjeta de estado inferior
 st.markdown("""
     <div class="status-card">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -216,7 +175,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# 5. Pie de página
+# Pie de página
 st.markdown("""
     <div class="footer-links">
         🔒 <a href="#" target="_blank">Política de privacidad</a><br><br>
