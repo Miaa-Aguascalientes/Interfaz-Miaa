@@ -28,6 +28,8 @@ st.markdown("""
         padding-top: 1rem !important;
         padding-bottom: 1rem !important;
         max-width: 100% !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 
     .wave-background {
@@ -175,14 +177,21 @@ st.markdown("""
         text-decoration: none;
     }
 
-    /* Ocultar el marco blanco predeterminado de Streamlit para iframes y estirarlo al máximo */
+    /* ELIMINAR COMPLETAMENTE EL CONTENEDOR BLANCO Y BORDES DEL IFRAME */
     iframe {
         width: 100% !important;
         border: none !important;
         background: transparent !important;
     }
+
+    /* Eliminar cualquier sombra o borde generado por el contenedor del componente iframe de Streamlit */
+    div[data-testid="stIFrame"] {
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
     
-    /* Estilo para el botón superior de retorno */
     .stButton > button {
         background-color: #132238 !important;
         border: 1px solid #00A8FF !important;
@@ -279,10 +288,9 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA A PANTALLA COMPLETA (SIN MARCOS BLANCOS)
+# VISTA INTERNA A PANTALLA COMPLETA Y LIMPIA
 # -------------------------------------------------------------------------
 else:
-    # Contenedor superior fijo para asegurar visibilidad total en móviles
     col_back, col_space = st.columns([2, 5])
     with col_back:
         if st.button("⬅️ Volver al menú principal"):
