@@ -23,7 +23,6 @@ if vista_actual != 'home':
         background-color: #070D19 !important;
     }
     
-    /* Forzar el fondo negro en el contenedor del iframe y la página embebida */
     iframe {
         width: 100% !important;
         border: none !important;
