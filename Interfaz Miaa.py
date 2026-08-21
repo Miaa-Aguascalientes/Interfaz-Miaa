@@ -8,7 +8,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos CSS personalizados para forzar la cuadrícula de 2 columnas exactas y el tema oscuro
+# Estilos CSS personalizados para las tarjetas, colores y tipografía
 st.markdown("""
     <style>
     .stApp {
@@ -21,26 +21,19 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
-    /* Contenedor de 2 columnas estrictas para las tarjetas */
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
     /* Tarjetas individuales */
     .custom-card {
         background-color: #0D172B;
         border: 1px solid #1E2D4A;
         border-radius: 16px;
-        padding: 16px 12px;
+        padding: 20px 15px;
         text-align: center;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        margin-bottom: 12px;
+        height: 220px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 100%;
     }
     
     .custom-card:hover {
@@ -75,17 +68,17 @@ st.markdown("""
     }
 
     .card-title {
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 600;
         color: #FFFFFF;
-        margin-top: 8px;
+        margin-top: 6px;
         margin-bottom: 4px;
     }
 
     .card-desc {
         font-size: 11px;
         color: #94A3B8;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         line-height: 1.3;
     }
 
@@ -146,13 +139,15 @@ url_scada = "https://tu-enlace-scada.com"
 url_op = "https://tu-enlace-consola.com"
 url_eventos = "https://tu-enlace-eventos.com"
 
-# 3. Cuadrícula exacta de 2 columnas para las 4 tarjetas
-st.markdown(f"""
-    <div class="grid-container">
-        <!-- Tarjeta 1 -->
+# 3. Diseño de 2 columnas usando el sistema nativo de Streamlit
+col1, col2 = st.columns(2)
+
+with col1:
+    # Tarjeta 1: Registro de usuarios
+    st.markdown(f"""
         <div class="custom-card">
             <div>
-                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 4px;">👤➕</div>
+                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
                 <div class="card-title">Registro de usuarios</div>
                 <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
             </div>
@@ -160,23 +155,13 @@ st.markdown(f"""
                 <a href="{url_registro}" target="_blank" class="card-button">➔</a>
             </div>
         </div>
+    """, unsafe_allow_html=True)
 
-        <!-- Tarjeta 2 -->
+    # Tarjeta 3: Consola de OP
+    st.markdown(f"""
         <div class="custom-card">
             <div>
-                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 4px;">💧📊</div>
-                <div class="card-title">Sistema Scada</div>
-                <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
-            </div>
-            <div>
-                <a href="{url_scada}" target="_blank" class="card-button">➔</a>
-            </div>
-        </div>
-
-        <!-- Tarjeta 3 -->
-        <div class="custom-card">
-            <div>
-                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 4px;">🖥️📈</div>
+                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
                 <div class="card-title">Consola de OP</div>
                 <div class="card-desc">Visualiza y controla la operación del sistema</div>
             </div>
@@ -184,11 +169,28 @@ st.markdown(f"""
                 <a href="{url_op}" target="_blank" class="card-button">➔</a>
             </div>
         </div>
+    """, unsafe_allow_html=True)
 
-        <!-- Tarjeta 4 -->
+with col2:
+    # Tarjeta 2: Sistema Scada
+    st.markdown(f"""
         <div class="custom-card">
             <div>
-                <div style="font-size: 28px; color: #F59E0B; margin-bottom: 4px;">⚠️</div>
+                <div style="font-size: 28px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
+                <div class="card-title">Sistema Scada</div>
+                <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
+            </div>
+            <div>
+                <a href="{url_scada}" target="_blank" class="card-button">➔</a>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # Tarjeta 4: Eventos operativos
+    st.markdown(f"""
+        <div class="custom-card">
+            <div>
+                <div style="font-size: 28px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
                 <div class="card-title">Eventos operativos</div>
                 <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
             </div>
@@ -196,8 +198,7 @@ st.markdown(f"""
                 <a href="{url_eventos}" target="_blank" class="card-button">➔</a>
             </div>
         </div>
-    </div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # 4. Tarjeta inferior de Seguridad y confiabilidad
 st.markdown("""
