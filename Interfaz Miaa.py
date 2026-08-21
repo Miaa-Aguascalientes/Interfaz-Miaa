@@ -8,9 +8,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+if 'vista_actual' not in st.session_state:
+    st.session_state.vista_actual = 'home'
+
 st.markdown("""
     <style>
-    /* Fondo general oscuro */
     .stApp {
         background-color: #070D19;
         color: #FFFFFF;
@@ -27,7 +29,6 @@ st.markdown("""
         padding-bottom: 1rem !important;
     }
 
-    /* Fondo animado con ondas fluidas */
     .wave-background {
         position: fixed;
         top: 0;
@@ -137,28 +138,6 @@ st.markdown("""
         line-height: 1.2;
     }
     
-    .card-button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        background-color: #132238;
-        border: 1px solid #1E3A60;
-        border-radius: 50%;
-        color: #38BDF8;
-        text-decoration: none;
-        font-size: 13px;
-        margin: 0 auto;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .card-button:hover {
-        background-color: #00A8FF;
-        color: #FFFFFF;
-    }
-    
     .footer-links {
         text-align: center;
         color: #64748B;
@@ -178,79 +157,120 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-content">', unsafe_allow_html=True)
+# -------------------------------------------------------------------------
+# VISTA PRINCIPAL (HOME)
+# -------------------------------------------------------------------------
+if st.session_state.vista_actual == 'home':
+    st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
-logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
+    logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
+    st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
+    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-url_registro = "https://registro-de-usuarios.streamlit.app/"
-url_scada = "https://sistema-scada-smartphone.streamlit.app/"
-url_op = "https://telegram-scada.streamlit.app/"
-url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
+    # Creamos las tarjetas mediante columnas interactivas de Streamlit respetando el diseño exacto
+    c1, c2 = st.columns(2)
+    
+    with c1:
+        st.markdown("""
+            <div class="custom-card">
+                <div>
+                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
+                    <div class="card-title">Registro de usuarios</div>
+                    <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Registro", key="b_reg", use_container_width=True):
+            st.session_state.vista_actual = 'registro'
+            st.rerun()
 
-# Usamos href con un preventDefault y redirección limpia en la misma pestaña
-cards_html = f"""
-<div class="grid-container">
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
-            <div class="card-title">Registro de usuarios</div>
-            <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
-        </div>
-        <div><a href="{url_registro}" onclick="event.preventDefault(); window.location.href='{url_registro}';" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
-            <div class="card-title">Sistema Scada</div>
-            <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
-        </div>
-        <div><a href="{url_scada}" onclick="event.preventDefault(); window.location.href='{url_scada}';" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
-            <div class="card-title">Consola de OP</div>
-            <div class="card-desc">Visualiza y controla la operación del sistema</div>
-        </div>
-        <div><a href="{url_op}" onclick="event.preventDefault(); window.location.href='{url_op}';" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
-            <div class="card-title">Eventos operativos</div>
-            <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
-        </div>
-        <div><a href="{url_eventos}" onclick="event.preventDefault(); window.location.href='{url_eventos}';" class="card-button">➔</a></div>
-    </div>
-</div>
-"""
-st.markdown(cards_html, unsafe_allow_html=True)
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
 
-st.markdown("""
-    <div class="status-card">
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
-            <div>
-                <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
-                <div style="font-size: 9px; color: #94A3B8;">Protegemos la información y la disponibilidad</div>
+        st.markdown("""
+            <div class="custom-card">
+                <div>
+                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
+                    <div class="card-title">Consola de OP</div>
+                    <div class="card-desc">Visualiza y controla la operación del sistema</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Consola OP", key="b_op", use_container_width=True):
+            st.session_state.vista_actual = 'op'
+            st.rerun()
+
+    with c2:
+        st.markdown("""
+            <div class="custom-card">
+                <div>
+                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
+                    <div class="card-title">Sistema Scada</div>
+                    <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Scada", key="b_scada", use_container_width=True):
+            st.session_state.vista_actual = 'scada'
+            st.rerun()
+
+        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+
+        st.markdown("""
+            <div class="custom-card">
+                <div>
+                    <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
+                    <div class="card-title">Eventos operativos</div>
+                    <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button("Abrir Eventos", key="b_eventos", use_container_width=True):
+            st.session_state.vista_actual = 'eventos'
+            st.rerun()
+
+    st.markdown("""
+        <div class="status-card" style="margin-top: 15px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
+                <div>
+                    <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Protegemos la información y la disponibilidad</div>
+                </div>
+            </div>
+            <div style="text-align: right; min-width: 80px;">
+                <span style="height: 6px; width: 6px; background-color: #22C55E; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>
+                <span style="font-size: 9px; color: #22C55E; font-weight: 500;">Sistema en línea</span>
             </div>
         </div>
-        <div style="text-align: right; min-width: 80px;">
-            <span style="height: 6px; width: 6px; background-color: #22C55E; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>
-            <span style="font-size: 9px; color: #22C55E; font-weight: 500;">Sistema en línea</span>
+    """, unsafe_allow_html=True)
+
+    current_year = date.today().year
+    st.markdown(f"""
+        <div class="footer-links">
+            🔒 <a href="#">Política de privacidad</a><br>
+            © {current_year} MIAA. Todos los derechos reservados.
         </div>
-    </div>
-""", unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-current_year = date.today().year
-st.markdown(f"""
-    <div class="footer-links">
-        🔒 <a href="#">Política de privacidad</a><br>
-        © {current_year} MIAA. Todos los derechos reservados.
-    </div>
-""", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+# -------------------------------------------------------------------------
+# CARGA INTERNA DE LA APLICACIÓN SELECCIONADA EN LA MISMA PÁGINA
+# -------------------------------------------------------------------------
+else:
+    if st.button("⬅️ Regresar al menú principal"):
+        st.session_state.vista_actual = 'home'
+        st.rerun()
+
+    urls = {
+        'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
+        'scada': "https://sistema-scada-smartphone.streamlit.app/?embed=true",
+        'op': "https://telegram-scada.streamlit.app/?embed=true",
+        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true"
+    }
+
+    url_activa = urls.get(st.session_state.vista_actual)
+    
+    # Renderiza la aplicación externa internamente ocupando toda la pantalla sin salir de la pestaña
+    st.components.v1.iframe(url_activa, height=850, scrolling=True)
