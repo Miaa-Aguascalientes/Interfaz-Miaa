@@ -20,11 +20,18 @@ if vista_actual != 'home':
         padding-right: 0rem !important;
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
+        background-color: #070D19 !important;
     }
     
+    /* Forzar el fondo negro en el contenedor del iframe y la página embebida */
     iframe {
         width: 100% !important;
         border: none !important;
+        background-color: #070D19 !important;
+    }
+    
+    div[data-testid="stIFrame"] {
+        background-color: #070D19 !important;
     }
     """
 
@@ -38,11 +45,7 @@ st.markdown(f"""
     }}
     
     #MainMenu {{visibility: hidden;}}
-    /* Ocultar el texto del footer o fundirlo con el fondo claro por defecto */
-    footer {{
-        visibility: hidden !important;
-        background-color: transparent !important;
-    }}
+    footer {{visibility: hidden !important; background-color: #070D19 !important;}}
     header {{visibility: hidden;}}
 
     .block-container {{
