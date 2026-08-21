@@ -190,10 +190,10 @@ st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
 # Direcciones web de los botones
-url_registro = "https://tu-enlace-registro.com"
-url_scada = "https://tu-enlace-scada.com"
-url_op = "https://tu-enlace-consola.com"
-url_eventos = "https://tu-enlace-eventos.com"
+url_registro = "https://registro-de-usuarios.streamlit.app/"
+url_scada = "https://sistema-scada-smartphone.streamlit.app/"
+url_op = "https://telegram-scada.streamlit.app/"
+url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
 
 # Cuadrícula compacta de 2 columnas forzada por CSS
 cards_html = f"""
