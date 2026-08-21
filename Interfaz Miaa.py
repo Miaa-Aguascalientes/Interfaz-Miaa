@@ -8,12 +8,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Inicializar la navegación en el estado de la sesión
-if 'pagina_activa' not in st.session_state:
-    st.session_state.pagina_activa = 'home'
-
 st.markdown("""
     <style>
+    /* Fondo general oscuro */
     .stApp {
         background-color: #070D19;
         color: #FFFFFF;
@@ -30,6 +27,7 @@ st.markdown("""
         padding-bottom: 1rem !important;
     }
 
+    /* Fondo animado con ondas fluidas */
     .wave-background {
         position: fixed;
         top: 0;
@@ -65,6 +63,7 @@ st.markdown("""
         100% { transform: translateX(-50%); }
     }
 
+    /* Asegurar que el contenido esté por encima del fondo animado */
     .main-content {
         position: relative;
         z-index: 10;
@@ -75,6 +74,26 @@ st.markdown("""
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 12px;
+    }
+    
+    .custom-card {
+        background-color: rgba(13, 23, 43, 0.85);
+        border: 1px solid #1E2D4A;
+        border-radius: 14px;
+        padding: 14px 10px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 195px;
+        backdrop-filter: blur(8px);
+        transition: border-color 0.3s, transform 0.2s;
+    }
+    
+    .custom-card:hover {
+        border-color: #00A8FF;
+        transform: translateY(-2px);
     }
     
     .status-card {
@@ -104,6 +123,42 @@ st.markdown("""
         margin-bottom: 12px;
     }
     
+    .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+    
+    .card-desc {
+        font-size: 10px;
+        color: #94A3B8;
+        margin-bottom: 10px;
+        line-height: 1.2;
+    }
+    
+    .card-button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        background-color: #132238;
+        border: 1px solid #1E3A60;
+        border-radius: 50%;
+        color: #38BDF8;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 auto;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .card-button:hover {
+        background-color: #00A8FF;
+        color: #FFFFFF;
+    }
+    
     .footer-links {
         text-align: center;
         color: #64748B;
@@ -117,105 +172,92 @@ st.markdown("""
     }
     </style>
 
+    <!-- HTML para las ondas animadas de fondo -->
     <div class="wave-background">
         <div class="wave"></div>
         <div class="wave"></div>
     </div>
 """, unsafe_allow_html=True)
 
-# -------------------------------------------------------------------------
-# VISTA PRINCIPAL (HOME)
-# -------------------------------------------------------------------------
-if st.session_state.pagina_activa == 'home':
-    st.markdown('<div class="main-content">', unsafe_allow_html=True)
+# Contenido principal de la app
+st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
-    logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-    st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
+# Logotipo
+logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
+st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
+# Encabezado
+st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-    # Creamos un contenedor en grid usando columnas de Streamlit para controlar la lógica interna de los botones
-    col1, col2 = st.columns(2)
+# Direcciones web de los aplicaciones externas
+url_registro = "https://registro-de-usuarios.streamlit.app/"
+url_scada = "https://sistema-scada-smartphone.streamlit.app/"
+url_op = "https://telegram-scada.streamlit.app/"
+url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
 
-    with col1:
-        with st.container(border=True):
-            st.markdown("### 👤➕ Registro de usuarios")
-            st.caption("Administra y registra nuevos usuarios del sistema")
-            if st.button("Abrir Registro", key="btn_reg", use_container_width=True):
-                st.session_state.pagina_activa = 'registro'
-                st.rerun()
+# Cuadrícula compacta de 2 columnas con target="_self" para abrir en la misma pestaña
+cards_html = f"""
+<div class="grid-container">
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
+            <div class="card-title">Registro de usuarios</div>
+            <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
+        </div>
+        <div><a href="{url_registro}" target="_self" class="card-button">➔</a></div>
+    </div>
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
+            <div class="card-title">Sistema Scada</div>
+            <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
+        </div>
+        <div><a href="{url_scada}" target="_self" class="card-button">➔</a></div>
+    </div>
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
+            <div class="card-title">Consola de OP</div>
+            <div class="card-desc">Visualiza y controla la operación del sistema</div>
+        </div>
+        <div><a href="{url_op}" target="_self" class="card-button">➔</a></div>
+    </div>
+    <div class="custom-card">
+        <div>
+            <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
+            <div class="card-title">Eventos operativos</div>
+            <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
+        </div>
+        <div><a href="{url_eventos}" target="_self" class="card-button">➔</a></div>
+    </div>
+</div>
+"""
+st.markdown(cards_html, unsafe_allow_html=True)
 
-        with st.container(border=True):
-            st.markdown("### 🖥️📈 Consola de OP")
-            st.caption("Visualiza y controla la operación del sistema")
-            if st.button("Abrir Consola OP", key="btn_op", use_container_width=True):
-                st.session_state.pagina_activa = 'op'
-                st.rerun()
-
-    with col2:
-        with st.container(border=True):
-            st.markdown("### 💧📊 Sistema Scada")
-            st.caption("Monitorea en tiempo real pozos, tanques y equipos")
-            if st.button("Abrir Scada", key="btn_scada", use_container_width=True):
-                st.session_state.pagina_activa = 'scada'
-                st.rerun()
-
-        with st.container(border=True):
-            st.markdown("### ⚠️ Eventos operativos")
-            st.caption("Consulta eventos, alertas e incidencias del sistema")
-            if st.button("Abrir Eventos", key="btn_eventos", use_container_width=True):
-                st.session_state.pagina_activa = 'eventos'
-                st.rerun()
-
-    st.markdown("""
-        <div class="status-card">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
-                <div>
-                    <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
-                    <div style="font-size: 9px; color: #94A3B8;">Protegemos la información y la disponibilidad</div>
-                </div>
-            </div>
-            <div style="text-align: right; min-width: 80px;">
-                <span style="height: 6px; width: 6px; background-color: #22C55E; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>
-                <span style="font-size: 9px; color: #22C55E; font-weight: 500;">Sistema en línea</span>
+# Tarjeta de estado inferior
+st.markdown("""
+    <div class="status-card">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
+            <div>
+                <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
+                <div style="font-size: 9px; color: #94A3B8;">Protegemos la información y la disponibilidad</div>
             </div>
         </div>
-    """, unsafe_allow_html=True)
-
-    current_year = date.today().year
-    st.markdown(f"""
-        <div class="footer-links">
-            🔒 <a href="#">Política de privacidad</a><br>
-            © {current_year} MIAA. Todos los derechos reservados.
+        <div style="text-align: right; min-width: 80px;">
+            <span style="height: 6px; width: 6px; background-color: #22C55E; border-radius: 50%; display: inline-block; margin-right: 3px;"></span>
+            <span style="font-size: 9px; color: #22C55E; font-weight: 500;">Sistema en línea</span>
         </div>
-    """, unsafe_allow_html=True)
+    </div>
+""", unsafe_allow_html=True)
 
-    st.markdown('</div>', unsafe_allow_html=True)
+# Pie de página
+current_year = date.today().year
+st.markdown(f"""
+    <div class="footer-links">
+        🔒 <a href="#">Política de privacidad</a><br>
+        © {current_year} MIAA. Todos los derechos reservados.
+    </div>
+""", unsafe_allow_html=True)
 
-# -------------------------------------------------------------------------
-# SUB-PÁGINAS (Cargadas dentro de la misma interfaz mediante iframes o vistas)
-# -------------------------------------------------------------------------
-else:
-    if st.button("⬅️ Volver al menú principal"):
-        st.session_state.pagina_activa = 'home'
-        st.rerun()
-    
-    st.markdown("---")
-
-    # Muestra la aplicación correspondiente incrustada sin salir de la página actual
-    if st.session_state.pagina_activa == 'registro':
-        st.subheader("Registro de usuarios")
-        st.components.v1.iframe("https://registro-de-usuarios.streamlit.app/?embed=true", height=700, scrolling=True)
-
-    elif st.session_state.pagina_activa == 'scada':
-        st.subheader("Sistema Scada")
-        st.components.v1.iframe("https://sistema-scada-smartphone.streamlit.app/?embed=true", height=700, scrolling=True)
-
-    elif st.session_state.pagina_activa == 'op':
-        st.subheader("Consola de OP")
-        st.components.v1.iframe("https://telegram-scada.streamlit.app/?embed=true", height=700, scrolling=True)
-
-    elif st.session_state.pagina_activa == 'eventos':
-        st.subheader("Eventos operativos")
-        st.components.v1.iframe("https://incidencias-en-sitios-miaa.streamlit.app/?embed=true", height=700, scrolling=True)
+st.markdown('</div>', unsafe_allow_html=True) # Cierre de main-content
