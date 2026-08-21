@@ -8,8 +8,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-if 'vista_actual' not in st.session_state:
-    st.session_state.vista_actual = 'home'
+# Obtenemos la vista actual desde los parámetros de la URL de forma interna
+query_params = st.query_params
+vista_actual = query_params.get("vista", "home")
 
 st.markdown("""
     <style>
@@ -88,6 +89,12 @@ st.markdown("""
         justify-content: space-between;
         min-height: 195px;
         backdrop-filter: blur(8px);
+        transition: border-color 0.3s, transform 0.2s;
+    }
+    
+    .custom-card:hover {
+        border-color: #00A8FF;
+        transform: translateY(-2px);
     }
     
     .status-card {
@@ -131,28 +138,27 @@ st.markdown("""
         margin-bottom: 10px;
         line-height: 1.2;
     }
-
-    /* Estilo para que los botones de Streamlit imiten perfectamente el botón circular original */
-    div.stButton > button {
+    
+    .card-button {
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        width: 30px !important;
-        height: 30px !important;
-        background-color: #132238 !important;
-        border: 1px solid #1E3A60 !important;
-        border-radius: 50% !important;
-        color: #38BDF8 !important;
-        font-size: 13px !important;
-        margin: 0 auto !important;
-        padding: 0 !important;
-        box-shadow: none !important;
+        width: 30px;
+        height: 30px;
+        background-color: #132238;
+        border: 1px solid #1E3A60;
+        border-radius: 50%;
+        color: #38BDF8;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 auto;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
     }
-
-    div.stButton > button:hover {
-        background-color: #00A8FF !important;
-        color: #FFFFFF !important;
-        border-color: #00A8FF !important;
+    
+    .card-button:hover {
+        background-color: #00A8FF;
+        color: #FFFFFF;
     }
     
     .footer-links {
@@ -177,7 +183,7 @@ st.markdown("""
 # -------------------------------------------------------------------------
 # VISTA PRINCIPAL (HOME)
 # -------------------------------------------------------------------------
-if st.session_state.vista_actual == 'home':
+if vista_actual == 'home':
     st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
     logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
@@ -185,66 +191,44 @@ if st.session_state.vista_actual == 'home':
 
     st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-    # Estructura idéntica de 2 columnas usando columnas de Streamlit
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-            <div class="custom-card">
-                <div>
-                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
-                    <div class="card-title">Registro de usuarios</div>
-                    <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
-                </div>
+    # Tarjetas exactas en cuadrícula HTML de 2 columnas con sus botones circulares originales integrados dentro
+    cards_html = """
+    <div class="grid-container">
+        <div class="custom-card">
+            <div>
+                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
+                <div class="card-title">Registro de usuarios</div>
+                <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
             </div>
-        """, unsafe_allow_html=True)
-        if st.button("➔", key="btn_reg"):
-            st.session_state.vista_actual = 'registro'
-            st.rerun()
-
-        st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
-
-        st.markdown("""
-            <div class="custom-card">
-                <div>
-                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
-                    <div class="card-title">Consola de OP</div>
-                    <div class="card-desc">Visualiza y controla la operación del sistema</div>
-                </div>
+            <div><a href="?vista=registro" target="_self" class="card-button">➔</a></div>
+        </div>
+        <div class="custom-card">
+            <div>
+                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
+                <div class="card-title">Sistema Scada</div>
+                <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
             </div>
-        """, unsafe_allow_html=True)
-        if st.button("➔", key="btn_op"):
-            st.session_state.vista_actual = 'op'
-            st.rerun()
-
-    with col2:
-        st.markdown("""
-            <div class="custom-card">
-                <div>
-                    <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
-                    <div class="card-title">Sistema Scada</div>
-                    <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
-                </div>
+            <div><a href="?vista=scada" target="_self" class="card-button">➔</a></div>
+        </div>
+        <div class="custom-card">
+            <div>
+                <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
+                <div class="card-title">Consola de OP</div>
+                <div class="card-desc">Visualiza y controla la operación del sistema</div>
             </div>
-        """, unsafe_allow_html=True)
-        if st.button("➔", key="btn_scada"):
-            st.session_state.vista_actual = 'scada'
-            st.rerun()
-
-        st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
-
-        st.markdown("""
-            <div class="custom-card">
-                <div>
-                    <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
-                    <div class="card-title">Eventos operativos</div>
-                    <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
-                </div>
+            <div><a href="?vista=op" target="_self" class="card-button">➔</a></div>
+        </div>
+        <div class="custom-card">
+            <div>
+                <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
+                <div class="card-title">Eventos operativos</div>
+                <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
             </div>
-        """, unsafe_allow_html=True)
-        if st.button("➔", key="btn_eventos"):
-            st.session_state.vista_actual = 'eventos'
-            st.rerun()
+            <div><a href="?vista=eventos" target="_self" class="card-button">➔</a></div>
+        </div>
+    </div>
+    """
+    st.markdown(cards_html, unsafe_allow_html=True)
 
     st.markdown("""
         <div class="status-card">
@@ -273,11 +257,11 @@ if st.session_state.vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA DE LA APLICACIÓN SELECCIONADA
+# VISTA INTERNA DE LA APLICACIÓN SELECCIONADA (CARGA DENTRO DE LA MISMA PÁGINA)
 # -------------------------------------------------------------------------
 else:
-    if st.button("⬅️ Volver al menú principal", key="btn_volver"):
-        st.session_state.vista_actual = 'home'
+    if st.button("⬅️ Volver al menú principal"):
+        st.query_params.clear()
         st.rerun()
 
     urls = {
@@ -287,5 +271,6 @@ else:
         'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true"
     }
 
-    url_activa = urls.get(st.session_state.vista_actual)
-    st.components.v1.iframe(url_activa, height=850, scrolling=True)
+    url_activa = urls.get(vista_actual)
+    if url_activa:
+        st.components.v1.iframe(url_activa, height=850, scrolling=True)
