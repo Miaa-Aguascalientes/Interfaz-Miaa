@@ -190,7 +190,7 @@ url_scada = "https://sistema-scada-smartphone.streamlit.app/"
 url_op = "https://telegram-scada.streamlit.app/"
 url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
 
-# Usamos onclick con location.href para forzar la navegación en la misma pestaña de forma limpia
+# Usamos href con un preventDefault y redirección limpia en la misma pestaña
 cards_html = f"""
 <div class="grid-container">
     <div class="custom-card">
@@ -199,7 +199,7 @@ cards_html = f"""
             <div class="card-title">Registro de usuarios</div>
             <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
         </div>
-        <div><a onclick="window.location.href='{url_registro}'" class="card-button">➔</a></div>
+        <div><a href="{url_registro}" onclick="event.preventDefault(); window.location.href='{url_registro}';" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -207,7 +207,7 @@ cards_html = f"""
             <div class="card-title">Sistema Scada</div>
             <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
         </div>
-        <div><a onclick="window.location.href='{url_scada}'" class="card-button">➔</a></div>
+        <div><a href="{url_scada}" onclick="event.preventDefault(); window.location.href='{url_scada}';" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -215,7 +215,7 @@ cards_html = f"""
             <div class="card-title">Consola de OP</div>
             <div class="card-desc">Visualiza y controla la operación del sistema</div>
         </div>
-        <div><a onclick="window.location.href='{url_op}'" class="card-button">➔</a></div>
+        <div><a href="{url_op}" onclick="event.preventDefault(); window.location.href='{url_op}';" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -223,7 +223,7 @@ cards_html = f"""
             <div class="card-title">Eventos operativos</div>
             <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
         </div>
-        <div><a onclick="window.location.href='{url_eventos}'" class="card-button">➔</a></div>
+        <div><a href="{url_eventos}" onclick="event.preventDefault(); window.location.href='{url_eventos}';" class="card-button">➔</a></div>
     </div>
 </div>
 """
