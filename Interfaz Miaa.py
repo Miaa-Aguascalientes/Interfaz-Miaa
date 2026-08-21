@@ -17,7 +17,7 @@ if vista_actual != 'home':
     css_ancho_total = """
     /* Forzar ancho completo de pantalla para las aplicaciones embebidas */
     .block-container {
-        max-width: 90% !important;
+        max-width: 80% !important;
         padding-left: 0rem !important;
         padding-right: 0rem !important;
         padding-top: 0.5rem !important;
