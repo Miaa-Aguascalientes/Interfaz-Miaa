@@ -316,4 +316,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=950, scrolling=True)
+        st.components.v1.iframe(url_activa, height=800, scrolling=True)
