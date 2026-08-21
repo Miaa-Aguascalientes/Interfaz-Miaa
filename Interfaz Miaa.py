@@ -21,6 +21,11 @@ if vista_actual != 'home':
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
     }
+    
+    iframe {
+        width: 100% !important;
+        border: none !important;
+    }
     """
 
 st.markdown(f"""
@@ -33,7 +38,11 @@ st.markdown(f"""
     }}
     
     #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden;}}
+    /* Ocultar el texto del footer o fundirlo con el fondo claro por defecto */
+    footer {{
+        visibility: hidden !important;
+        background-color: transparent !important;
+    }}
     header {{visibility: hidden;}}
 
     .block-container {{
