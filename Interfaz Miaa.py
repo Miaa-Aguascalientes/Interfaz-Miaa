@@ -11,24 +11,35 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS para pintar de negro absoluto los bordes de los contenedores del iframe y la app
+# CSS para el contenedor del iframe y la máscara negra de los bordes
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Forzar bordes negros en contenedores y bloques principales */
-    .block-container, div[data-testid="stMainBlockContainer"], section.main > div {
+    .block-container {
         max-width: 100% !important;
         padding-left: 0rem !important;
         padding-right: 0rem !important;
         padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
         background: #000000 !important;
-        border: 1px solid #000000 !important;
-        box-shadow: none !important;
     }
     
+    /* Contenedor envolvente para forzar el fondo negro total alrededor del iframe */
+    .iframe-container {
+        position: relative;
+        width: 100vw;
+        height: 950px;
+        background-color: #000000 !important;
+        border: 2px solid #000000 !important;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
     iframe {
-        width: 100vw !important;
-        border: 1px solid #000000 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border: none !important;
         background: #000000 !important;
     }
     """
@@ -315,4 +326,6 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
+        st.markdown('<div class="iframe-container">', unsafe_allow_html=True)
         st.components.v1.iframe(url_activa, height=950, scrolling=True)
+        st.markdown('</div>', unsafe_allow_html=True)
