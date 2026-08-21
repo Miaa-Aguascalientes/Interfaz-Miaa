@@ -301,12 +301,6 @@ if vista_actual == 'home':
 # VISTA INTERNA
 # -------------------------------------------------------------------------
 else:
-    col_back, col_space = st.columns([2, 5])
-    with col_back:
-        if st.button("⬅️ Volver al menú principal"):
-            st.query_params.clear()
-            st.rerun()
-
     urls = {
         'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
         'scada': "https://sistema-scada-smartphone.streamlit.app/?embed=true",
@@ -316,4 +310,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=800, scrolling=True)
+        st.components.v1.iframe(url_activa, height=980, scrolling=True)
