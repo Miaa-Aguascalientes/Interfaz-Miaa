@@ -88,12 +88,6 @@ st.markdown("""
         justify-content: space-between;
         min-height: 195px;
         backdrop-filter: blur(8px);
-        transition: border-color 0.3s, transform 0.2s;
-    }
-    
-    .custom-card:hover {
-        border-color: #00A8FF;
-        transform: translateY(-2px);
     }
     
     .status-card {
@@ -137,6 +131,29 @@ st.markdown("""
         margin-bottom: 10px;
         line-height: 1.2;
     }
+
+    /* Estilo para que los botones de Streamlit imiten perfectamente el botón circular original */
+    div.stButton > button {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px !important;
+        height: 30px !important;
+        background-color: #132238 !important;
+        border: 1px solid #1E3A60 !important;
+        border-radius: 50% !important;
+        color: #38BDF8 !important;
+        font-size: 13px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+    }
+
+    div.stButton > button:hover {
+        background-color: #00A8FF !important;
+        color: #FFFFFF !important;
+        border-color: #00A8FF !important;
+    }
     
     .footer-links {
         text-align: center;
@@ -168,10 +185,10 @@ if st.session_state.vista_actual == 'home':
 
     st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-    # Creamos las tarjetas mediante columnas interactivas de Streamlit respetando el diseño exacto
-    c1, c2 = st.columns(2)
-    
-    with c1:
+    # Estructura idéntica de 2 columnas usando columnas de Streamlit
+    col1, col2 = st.columns(2)
+
+    with col1:
         st.markdown("""
             <div class="custom-card">
                 <div>
@@ -181,11 +198,11 @@ if st.session_state.vista_actual == 'home':
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Abrir Registro", key="b_reg", use_container_width=True):
+        if st.button("➔", key="btn_reg"):
             st.session_state.vista_actual = 'registro'
             st.rerun()
 
-        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="custom-card">
@@ -196,11 +213,11 @@ if st.session_state.vista_actual == 'home':
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Abrir Consola OP", key="b_op", use_container_width=True):
+        if st.button("➔", key="btn_op"):
             st.session_state.vista_actual = 'op'
             st.rerun()
 
-    with c2:
+    with col2:
         st.markdown("""
             <div class="custom-card">
                 <div>
@@ -210,11 +227,11 @@ if st.session_state.vista_actual == 'home':
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Abrir Scada", key="b_scada", use_container_width=True):
+        if st.button("➔", key="btn_scada"):
             st.session_state.vista_actual = 'scada'
             st.rerun()
 
-        st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+        st.markdown("<div style='height: 15px;'></div>", unsafe_allow_html=True)
 
         st.markdown("""
             <div class="custom-card">
@@ -225,12 +242,12 @@ if st.session_state.vista_actual == 'home':
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        if st.button("Abrir Eventos", key="b_eventos", use_container_width=True):
+        if st.button("➔", key="btn_eventos"):
             st.session_state.vista_actual = 'eventos'
             st.rerun()
 
     st.markdown("""
-        <div class="status-card" style="margin-top: 15px;">
+        <div class="status-card">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
                 <div>
@@ -256,10 +273,10 @@ if st.session_state.vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# CARGA INTERNA DE LA APLICACIÓN SELECCIONADA EN LA MISMA PÁGINA
+# VISTA INTERNA DE LA APLICACIÓN SELECCIONADA
 # -------------------------------------------------------------------------
 else:
-    if st.button("⬅️ Regresar al menú principal"):
+    if st.button("⬅️ Volver al menú principal", key="btn_volver"):
         st.session_state.vista_actual = 'home'
         st.rerun()
 
@@ -271,6 +288,4 @@ else:
     }
 
     url_activa = urls.get(st.session_state.vista_actual)
-    
-    # Renderiza la aplicación externa internamente ocupando toda la pantalla sin salir de la pestaña
     st.components.v1.iframe(url_activa, height=850, scrolling=True)
