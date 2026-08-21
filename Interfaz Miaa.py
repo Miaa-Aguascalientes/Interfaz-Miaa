@@ -63,7 +63,6 @@ st.markdown("""
         100% { transform: translateX(-50%); }
     }
 
-    /* Asegurar que el contenido esté por encima del fondo animado */
     .main-content {
         position: relative;
         z-index: 10;
@@ -151,6 +150,7 @@ st.markdown("""
         text-decoration: none;
         font-size: 13px;
         margin: 0 auto;
+        cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
     }
     
@@ -172,30 +172,25 @@ st.markdown("""
     }
     </style>
 
-    <!-- HTML para las ondas animadas de fondo -->
     <div class="wave-background">
         <div class="wave"></div>
         <div class="wave"></div>
     </div>
 """, unsafe_allow_html=True)
 
-# Contenido principal de la app
 st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
-# Logotipo
 logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
 st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-# Encabezado
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-# Direcciones web de los aplicaciones externas
 url_registro = "https://registro-de-usuarios.streamlit.app/"
 url_scada = "https://sistema-scada-smartphone.streamlit.app/"
 url_op = "https://telegram-scada.streamlit.app/"
 url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
 
-# Cuadrícula compacta de 2 columnas con target="_self" para abrir en la misma pestaña
+# Usamos onclick con location.href para forzar la navegación en la misma pestaña de forma limpia
 cards_html = f"""
 <div class="grid-container">
     <div class="custom-card">
@@ -204,7 +199,7 @@ cards_html = f"""
             <div class="card-title">Registro de usuarios</div>
             <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
         </div>
-        <div><a href="{url_registro}" target="_self" class="card-button">➔</a></div>
+        <div><a onclick="window.location.href='{url_registro}'" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -212,7 +207,7 @@ cards_html = f"""
             <div class="card-title">Sistema Scada</div>
             <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
         </div>
-        <div><a href="{url_scada}" target="_self" class="card-button">➔</a></div>
+        <div><a onclick="window.location.href='{url_scada}'" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -220,7 +215,7 @@ cards_html = f"""
             <div class="card-title">Consola de OP</div>
             <div class="card-desc">Visualiza y controla la operación del sistema</div>
         </div>
-        <div><a href="{url_op}" target="_self" class="card-button">➔</a></div>
+        <div><a onclick="window.location.href='{url_op}'" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -228,13 +223,12 @@ cards_html = f"""
             <div class="card-title">Eventos operativos</div>
             <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
         </div>
-        <div><a href="{url_eventos}" target="_self" class="card-button">➔</a></div>
+        <div><a onclick="window.location.href='{url_eventos}'" class="card-button">➔</a></div>
     </div>
 </div>
 """
 st.markdown(cards_html, unsafe_allow_html=True)
 
-# Tarjeta de estado inferior
 st.markdown("""
     <div class="status-card">
         <div style="display: flex; align-items: center; gap: 8px;">
@@ -251,7 +245,6 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 
-# Pie de página
 current_year = date.today().year
 st.markdown(f"""
     <div class="footer-links">
@@ -260,4 +253,4 @@ st.markdown(f"""
     </div>
 """, unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True) # Cierre de main-content
+st.markdown('</div>', unsafe_allow_html=True)
