@@ -11,26 +11,33 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS Dinámico según la vista para ancho total absoluto
+# CSS Dinámico para eliminar bordes y estirar el iframe al máximo
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Forzar ancho completo de pantalla para las aplicaciones embebidas */
+    /* Eliminar cualquier contenedor con borde o fondo blanco en las vistas embebidas */
     .block-container {
-        max-width: 50% !important;
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-        padding-top: 0.5rem !important;
+        max-width: 100% !important;
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        padding-top: 0rem !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
-    div[data-testid="stIFrame"], iframe {
+    
+    div.element-container, div[data-testid="stIFrame"], iframe {
         width: 100vw !important;
-        position: relative;
-        left: 50%;
-        right: 50%;
-        margin-left: -50vw !important;
-        margin-right: -50vw !important;
         border: none !important;
         background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Eliminar la línea o borde superior del bloque principal */
+    section.main > div {
+        background: transparent !important;
+        border: none !important;
         box-shadow: none !important;
     }
     """
@@ -299,7 +306,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA A ANCHO DE PANTALLA COMPLETO (100VW)
+# VISTA INTERNA A ANCHO TOTAL Y SIN LÍNEAS
 # -------------------------------------------------------------------------
 else:
     col_back, col_space = st.columns([2, 5])
