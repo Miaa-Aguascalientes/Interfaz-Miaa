@@ -23,7 +23,7 @@ if vista_actual != 'home':
         padding-top: 0.5rem !important;
     }
     div[data-testid="stIFrame"], iframe {
-        width: 90vw !important;
+        width: 100vw !important;
         position: relative;
         left: 50%;
         right: 50%;
