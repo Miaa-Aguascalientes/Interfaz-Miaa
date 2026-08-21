@@ -189,7 +189,7 @@ st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo
 # Encabezado
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-# Direcciones web de los botones
+# Direcciones web de los botones (Se abren en la misma ventana al quitar target="_blank")
 url_registro = "https://registro-de-usuarios.streamlit.app/"
 url_scada = "https://sistema-scada-smartphone.streamlit.app/"
 url_op = "https://telegram-scada.streamlit.app/"
@@ -204,7 +204,7 @@ cards_html = f"""
             <div class="card-title">Registro de usuarios</div>
             <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
         </div>
-        <div><a href="{url_registro}" target="_blank" class="card-button">➔</a></div>
+        <div><a href="{url_registro}" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -212,7 +212,7 @@ cards_html = f"""
             <div class="card-title">Sistema Scada</div>
             <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
         </div>
-        <div><a href="{url_scada}" target="_blank" class="card-button">➔</a></div>
+        <div><a href="{url_scada}" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -220,7 +220,7 @@ cards_html = f"""
             <div class="card-title">Consola de OP</div>
             <div class="card-desc">Visualiza y controla la operación del sistema</div>
         </div>
-        <div><a href="{url_op}" target="_blank" class="card-button">➔</a></div>
+        <div><a href="{url_op}" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -228,7 +228,7 @@ cards_html = f"""
             <div class="card-title">Eventos operativos</div>
             <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
         </div>
-        <div><a href="{url_eventos}" target="_blank" class="card-button">➔</a></div>
+        <div><a href="{url_eventos}" class="card-button">➔</a></div>
     </div>
 </div>
 """
@@ -255,7 +255,7 @@ st.markdown("""
 current_year = date.today().year
 st.markdown(f"""
     <div class="footer-links">
-        🔒 <a href="#" target="_blank">Política de privacidad</a><br>
+        🔒 <a href="#">Política de privacidad</a><br>
         © {current_year} MIAA. Todos los derechos reservados.
     </div>
 """, unsafe_allow_html=True)
