@@ -11,28 +11,52 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-st.markdown("""
+# CSS Dinámico según la vista para ancho total absoluto
+css_ancho_total = ""
+if vista_actual != 'home':
+    css_ancho_total = """
+    /* Forzar ancho completo de pantalla para las aplicaciones embebidas */
+    .block-container {
+        max-width: 100% !important;
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        padding-top: 0.5rem !important;
+    }
+    div[data-testid="stIFrame"], iframe {
+        width: 100vw !important;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw !important;
+        margin-right: -50vw !important;
+        border: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    """
+
+st.markdown(f"""
     <style>
-    .stApp {
+    .stApp {{
         background-color: #070D19;
         color: #FFFFFF;
         font-family: 'sans-serif';
         overflow-x: hidden;
-    }
+    }}
     
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    #MainMenu {{visibility: hidden;}}
+    footer {{visibility: hidden;}}
+    header {{visibility: hidden;}}
 
-    .block-container {
+    .block-container {{
         padding-top: 1rem !important;
         padding-bottom: 1rem !important;
         max-width: 100% !important;
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
-    }
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }}
 
-    .wave-background {
+    .wave-background {{
         position: fixed;
         top: 0;
         left: 0;
@@ -42,9 +66,9 @@ st.markdown("""
         pointer-events: none;
         background: radial-gradient(circle at 50% 20%, #0A1931 0%, #070D19 70%);
         overflow: hidden;
-    }
+    }}
     
-    .wave {
+    .wave {{
         position: absolute;
         bottom: 0;
         left: 0;
@@ -53,35 +77,35 @@ st.markdown("""
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
         background-repeat: repeat-x;
         animation: wave-animation 15s linear infinite;
-    }
+    }}
     
-    .wave:nth-of-type(2) {
+    .wave:nth-of-type(2) {{
         bottom: 10px;
         opacity: 0.5;
         animation: wave-animation 25s linear infinite reverse;
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
-    }
+    }}
 
-    @keyframes wave-animation {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
+    @keyframes wave-animation {{
+        0% {{ transform: translateX(0); }}
+        100% {{ transform: translateX(-50%); }}
+    }}
 
-    .main-content {
+    .main-content {{
         position: relative;
         z-index: 10;
         max-width: 700px;
         margin: 0 auto;
-    }
+    }}
 
-    .grid-container {
+    .grid-container {{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 12px;
-    }
+    }}
     
-    .custom-card {
+    .custom-card {{
         background-color: rgba(13, 23, 43, 0.85);
         border: 1px solid #1E2D4A;
         border-radius: 14px;
@@ -94,14 +118,14 @@ st.markdown("""
         min-height: 195px;
         backdrop-filter: blur(8px);
         transition: border-color 0.3s, transform 0.2s;
-    }
+    }}
     
-    .custom-card:hover {
+    .custom-card:hover {{
         border-color: #00A8FF;
         transform: translateY(-2px);
-    }
+    }}
     
-    .status-card {
+    .status-card {{
         background-color: rgba(13, 23, 43, 0.85);
         border: 1px solid #1E2D4A;
         border-radius: 16px;
@@ -112,38 +136,38 @@ st.markdown("""
         margin-top: 5px;
         margin-bottom: 10px;
         backdrop-filter: blur(8px);
-    }
+    }}
     
-    .welcome-title {
+    .welcome-title {{
         font-size: 24px;
         font-weight: 700;
         color: #FFFFFF;
         margin-top: 5px;
         margin-bottom: 2px;
-    }
+    }}
     
-    .welcome-subtitle {
+    .welcome-subtitle {{
         font-size: 13px;
         color: #94A3B8;
         margin-bottom: 12px;
-    }
+    }}
     
-    .card-title {
+    .card-title {{
         font-size: 13px;
         font-weight: 600;
         color: #FFFFFF;
         margin-top: 4px;
         margin-bottom: 4px;
-    }
+    }}
     
-    .card-desc {
+    .card-desc {{
         font-size: 10px;
         color: #94A3B8;
         margin-bottom: 10px;
         line-height: 1.2;
-    }
+    }}
     
-    .card-button {
+    .card-button {{
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -158,56 +182,39 @@ st.markdown("""
         margin: 0 auto;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
-    }
+    }}
     
-    .card-button:hover {
+    .card-button:hover {{
         background-color: #00A8FF;
         color: #FFFFFF;
-    }
+    }}
     
-    .footer-links {
+    .footer-links {{
         text-align: center;
         color: #64748B;
         font-size: 11px;
         margin-top: 10px;
-    }
+    }}
     
-    .footer-links a {
+    .footer-links a {{
         color: #38BDF8;
         text-decoration: none;
-    }
+    }}
 
-    /* MATAR EL CUADRO BLANCO Y LOS BORDES EXTERNOS DE STREAMLIT EN LOS IFRAMES */
-    iframe {
-        width: 100% !important;
-        border: none !important;
-        background: transparent !important;
-    }
-
-    /* Element container general que pone Streamlit alrededor del iframe */
-    div.element-container:has(iframe), 
-    div[data-testid="stIFrame"], 
-    div[data-testid="stIFrame"] > div,
-    iframe {
-        background: transparent !important;
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-    
-    .stButton > button {
+    .stButton > button {{
         background-color: #132238 !important;
         border: 1px solid #00A8FF !important;
         color: #38BDF8 !important;
         border-radius: 8px !important;
         font-weight: 600 !important;
         width: 100% !important;
-    }
-    .stButton > button:hover {
+    }}
+    .stButton > button:hover {{
         background-color: #00A8FF !important;
         color: #FFFFFF !important;
-    }
+    }}
+
+    {css_ancho_total}
     </style>
 
     <div class="wave-background">
@@ -292,7 +299,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA A PANTALLA COMPLETA
+# VISTA INTERNA A ANCHO DE PANTALLA COMPLETO (100VW)
 # -------------------------------------------------------------------------
 else:
     col_back, col_space = st.columns([2, 5])
@@ -310,4 +317,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
+        st.components.v1.iframe(url_activa, height=950, scrolling=True)
