@@ -11,35 +11,24 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS Dinámico para asegurar transparencia absoluta en bordes y líneas de Streamlit
+# CSS para tapar la línea blanca con una franja negra y ajustar el ancho total
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Forzar transparencia y eliminación de bordes en contenedores principales */
-    .block-container, div[data-testid="stMainBlockContainer"] {
+    /* Franja negra fija en la parte superior para tapar cualquier línea del iframe */
+    .block-container {
         max-width: 100% !important;
         padding-left: 0rem !important;
         padding-right: 0rem !important;
         padding-top: 0rem !important;
         background: transparent !important;
         border: none !important;
-        box-shadow: none !important;
     }
     
-    /* Eliminar cualquier línea o borde generado en los divs contenedores de Streamlit */
-    section.main > div, div.element-container, div[data-testid="stIFrame"] {
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* Forzar ancho total de pantalla para el iframe */
     iframe {
         width: 100vw !important;
         border: none !important;
-        background: transparent !important;
-        box-shadow: none !important;
+        background: #070D19 !important;
     }
     """
 
@@ -307,7 +296,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA A ANCHO TOTAL Y SIN BORDES / LÍNEAS
+# VISTA INTERNA
 # -------------------------------------------------------------------------
 else:
     col_back, col_space = st.columns([2, 5])
