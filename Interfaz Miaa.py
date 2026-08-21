@@ -18,11 +18,17 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
 
+    /* Eliminar el espacio superior por defecto de Streamlit */
+    .block-container {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+    }
+
     .grid-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
     }
     .custom-card {
         background-color: #0D172B;
@@ -43,24 +49,24 @@ st.markdown("""
         background-color: #0D172B;
         border: 1px solid #1E2D4A;
         border-radius: 16px;
-        padding: 14px 16px;
+        padding: 12px 16px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 10px;
-        margin-bottom: 20px;
+        margin-top: 5px;
+        margin-bottom: 10px;
     }
     .welcome-title {
         font-size: 24px;
         font-weight: 700;
         color: #FFFFFF;
-        margin-top: 10px;
+        margin-top: 5px;
         margin-bottom: 2px;
     }
     .welcome-subtitle {
         font-size: 13px;
         color: #94A3B8;
-        margin-bottom: 16px;
+        margin-bottom: 12px;
     }
     .card-title {
         font-size: 13px;
@@ -97,7 +103,7 @@ st.markdown("""
         text-align: center;
         color: #64748B;
         font-size: 11px;
-        margin-top: 20px;
+        margin-top: 10px;
     }
     .footer-links a {
         color: #38BDF8;
@@ -108,7 +114,7 @@ st.markdown("""
 
 # Logotipo
 logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-st.markdown(f'<div style="text-align: center; padding-top: 10px;"><img src="{logo_url}" width="150px" alt="Logo MIAA"><p style="color: #64748B; font-size: 10px; margin-top: 4px;">Modelo Integral de Aguas de Aguascalientes</p></div>', unsafe_allow_html=True)
+st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #64748B; font-size: 10px; margin-top: 2px;">Modelo Integral de Aguas de Aguascalientes</p></div>', unsafe_allow_html=True)
 
 # Encabezado
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
@@ -178,7 +184,7 @@ st.markdown("""
 # Pie de página
 st.markdown("""
     <div class="footer-links">
-        🔒 <a href="#" target="_blank">Política de privacidad</a><br><br>
+        🔒 <a href="#" target="_blank">Política de privacidad</a><br>
         © 2026 MIAA. Todos los derechos reservados.
     </div>
 """, unsafe_allow_html=True)
