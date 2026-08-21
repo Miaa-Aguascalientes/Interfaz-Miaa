@@ -18,8 +18,8 @@ if vista_actual != 'home':
     /* Forzar ancho completo de pantalla para las aplicaciones embebidas */
     .block-container {
         max-width: 50% !important;
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
         padding-top: 0.5rem !important;
     }
     div[data-testid="stIFrame"], iframe {
