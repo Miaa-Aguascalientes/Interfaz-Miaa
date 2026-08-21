@@ -11,24 +11,25 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS para tapar la línea blanca con una franja negra y ajustar el ancho total
+# CSS para pintar de negro absoluto los bordes de los contenedores del iframe y la app
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Franja negra fija en la parte superior para tapar cualquier línea del iframe */
-    .block-container {
+    /* Forzar bordes negros en contenedores y bloques principales */
+    .block-container, div[data-testid="stMainBlockContainer"], section.main > div {
         max-width: 100% !important;
         padding-left: 0rem !important;
         padding-right: 0rem !important;
         padding-top: 0rem !important;
-        background: transparent !important;
-        border: none !important;
+        background: #000000 !important;
+        border: 1px solid #000000 !important;
+        box-shadow: none !important;
     }
     
     iframe {
         width: 100vw !important;
-        border: none !important;
-        background: #070D19 !important;
+        border: 1px solid #000000 !important;
+        background: #000000 !important;
     }
     """
 
