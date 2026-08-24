@@ -10,7 +10,7 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS para el Home o para limpiar la interfaz general
+# CSS general de la app
 st.markdown("""
     <style>
     .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
@@ -141,15 +141,15 @@ st.markdown("""
         display: inline-flex;
         justify-content: center;
         align-items: center;
-        width: 30px;
-        height: 30px;
+        width: 100%;
+        padding: 8px 0;
         background-color: #132238;
         border: 1px solid #1E3A60;
-        border-radius: 50%;
+        border-radius: 8px;
         color: #38BDF8;
         text-decoration: none;
-        font-size: 13px;
-        margin: 0 auto;
+        font-size: 12px;
+        font-weight: 600;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
     }
@@ -175,9 +175,18 @@ if vista_actual == 'home':
     logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
     st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="130px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
+    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para abrir el sistema</div>', unsafe_allow_html=True)
 
-    cards_html = """
+    # Diccionario con las URLs directas (sin parámetro embed para que abran limpias a pantalla completa)
+    urls = {
+        'registro': "https://registro-de-usuarios.streamlit.app/",
+        'scada': "https://sistema-scada-smartphone.streamlit.app/",
+        'op': "https://telegram-scada.streamlit.app/",
+        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/",
+        'telegram': "https://registro-de-usuarios-telegram.streamlit.app/"
+    }
+
+    cards_html = f"""
     <div class="grid-container">
         <div class="custom-card">
             <div>
@@ -185,7 +194,7 @@ if vista_actual == 'home':
                 <div class="card-title">Registro de usuarios</div>
                 <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
             </div>
-            <div><a href="?vista=registro" target="_self" class="card-button">➔</a></div>
+            <div><a href="{urls['registro']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -193,7 +202,7 @@ if vista_actual == 'home':
                 <div class="card-title">Sistema Scada</div>
                 <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
             </div>
-            <div><a href="?vista=scada" target="_self" class="card-button">➔</a></div>
+            <div><a href="{urls['scada']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -201,7 +210,7 @@ if vista_actual == 'home':
                 <div class="card-title">Consola de OP</div>
                 <div class="card-desc">Visualiza y controla la operación del sistema</div>
             </div>
-            <div><a href="?vista=op" target="_self" class="card-button">➔</a></div>
+            <div><a href="{urls['op']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -209,7 +218,7 @@ if vista_actual == 'home':
                 <div class="card-title">Eventos operativos</div>
                 <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
             </div>
-            <div><a href="?vista=eventos" target="_self" class="card-button">➔</a></div>
+            <div><a href="{urls['eventos']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
         </div>
         <div class="custom-card" style="grid-column: span 2;">
             <div>
@@ -217,7 +226,7 @@ if vista_actual == 'home':
                 <div class="card-title">Registro Telegram</div>
                 <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
             </div>
-            <div><a href="?vista=telegram" target="_self" class="card-button">➔</a></div>
+            <div><a href="{urls['telegram']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
         </div>
     </div>
     """
@@ -241,51 +250,7 @@ if vista_actual == 'home':
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-# -------------------------------------------------------------------------
-# VISTA INTERNA (MATANDO EL RECUADRO BLANCO MEDIANTE UN SCRIPT DE ANCLAJE GLOBAL)
-# -------------------------------------------------------------------------
 else:
-    urls = {
-        'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
-        'scada': "https://sistema-scada-smartphone.streamlit.app/?embed=true",
-        'op': "https://telegram-scada.streamlit.app/?embed=true",
-        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true",
-        'telegram': "https://registro-de-usuarios-telegram.streamlit.app/?embed=true"
-    }
-
-    url_activa = urls.get(vista_actual)
-    if url_activa:
-        # Este bloque inyecta un script que busca el contenedor padre de Streamlit y lo fuerza a salir del flujo normal de la página
-        script_destructor_blanco = f"""
-        <div id="full-viewport-wrapper" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background-color: #050a10; z-index: 99999999; margin: 0; padding: 0; overflow: hidden;">
-            <iframe src="{url_activa}" style="width: 100%; height: 100%; border: none; background-color: #050a10; margin: 0; padding: 0;" scrolling="yes"></iframe>
-        </div>
-        
-        <script>
-        // Forzar al script a subir por el DOM de Streamlit para apagar cualquier tarjeta o padding blanco circundante
-        try {{
-            let container = document.getElementById('full-viewport-wrapper');
-            let parentElement = container.closest('.element-container');
-            if (parentElement) {{
-                parentElement.style.position = 'fixed';
-                parentElement.style.top = '0';
-                parentElement.style.left = '0';
-                parentElement.style.width = '100vw';
-                parentElement.style.height = '100vh';
-                parentElement.style.zIndex = '99999999';
-                parentElement.style.padding = '0';
-                parentElement.style.margin = '0';
-                parentElement.style.background = '#050a10';
-            }}
-            let blockContainer = container.closest('.block-container');
-            if (blockContainer) {{
-                blockContainer.style.maxWidth = '100%';
-                blockContainer.style.padding = '0';
-                blockContainer.style.margin = '0';
-            }}
-        }} catch(e) {{
-            console.error(e);
-        }}
-        </script>
-        """
-        st.markdown(script_destructor_blanco, unsafe_allow_html=True)
+    # Si por alguna razón entra aquí, redirige automáticamente al home
+    st.query_params.clear()
+    st.rerun()
