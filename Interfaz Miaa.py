@@ -1,5 +1,5 @@
 import streamlit as st
-import streamlit.components.v1 as components
+from datetime import date
 
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
@@ -11,162 +11,193 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS para limpiar el diseño general de Streamlit cuando estamos en el Home
-if vista_actual == 'home':
-    st.markdown("""
-        <style>
-        .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
-        .block-container { padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }
-        
-        header, footer, [data-testid="stStatusWidget"], #MainMenu, 
-        .viewerBadge_container, div[class*="viewerBadge"], 
-        .stFooter, a[href*="streamlit.io/cloud"] {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            height: 0 !important;
-            pointer-events: none !important;
-        }
+css_ancho_total = ""
+if vista_actual != 'home':
+    css_ancho_total = """
+    .block-container {
+        max-width: 100% !important;
+        padding-left: 0rem !important;
+        padding-right: 0rem !important;
+        padding-top: 0rem !important;
+        padding-bottom: 0rem !important;
+        background-color: #050a10 !important;
+    }
+    
+    iframe {
+        width: 100% !important;
+        height: 100vh !important;
+        border: none !important;
+        background-color: #050a10 !important;
+    }
+    
+    div[data-testid="stIFrame"] {
+        width: 100% !important;
+        height: 100vh !important;
+        background-color: #050a10 !important;
+    }
+    """
 
-        .wave-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
-            overflow: hidden;
-        }
-        
-        .wave {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
-            background-repeat: repeat-x;
-            animation: wave-animation 15s linear infinite;
-        }
-        
-        .wave:nth-of-type(2) {
-            bottom: 10px;
-            opacity: 0.5;
-            animation: wave-animation 25s linear infinite reverse;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
-        }
+st.markdown(f"""
+    <style>
+    /* Configuración base y ajuste para subir componentes al máximo */
+    .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
+    .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
+    header, footer {{ visibility: hidden !important; background-color: #050a10 !important; }}
+    #MainMenu {{ visibility: hidden; }}
 
-        @keyframes wave-animation {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+    .wave-background {{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
+        overflow: hidden;
+    }}
+    
+    .wave {{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 200%;
+        height: 100%;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
+        background-repeat: repeat-x;
+        animation: wave-animation 15s linear infinite;
+    }}
+    
+    .wave:nth-of-type(2) {{
+        bottom: 10px;
+        opacity: 0.5;
+        animation: wave-animation 25s linear infinite reverse;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
+    }}
 
-        .main-content {
-            position: relative;
-            z-index: 10;
-            max-width: 700px;
-            margin: 0 auto;
-        }
+    @keyframes wave-animation {{
+        0% {{ transform: translateX(0); }}
+        100% {{ transform: translateX(-50%); }}
+    }}
 
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        
-        .custom-card {
-            background-color: rgba(13, 23, 43, 0.85);
-            border: 1px solid #1E2D4A;
-            border-radius: 14px;
-            padding: 14px 10px;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 195px;
-            backdrop-filter: blur(8px);
-            transition: border-color 0.3s, transform 0.2s;
-        }
-        
-        .custom-card:hover {
-            border-color: #00A8FF;
-            transform: translateY(-2px);
-        }
-        
-        .status-card {
-            background-color: rgba(13, 23, 43, 0.85);
-            border: 1px solid #1E2D4A;
-            border-radius: 16px;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            backdrop-filter: blur(8px);
-        }
-        
-        .welcome-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #FFFFFF;
-            margin-top: 0px;
-            margin-bottom: 2px;
-        }
-        
-        .welcome-subtitle {
-            font-size: 13px;
-            color: #94A3B8;
-            margin-bottom: 12px;
-        }
-        
-        .card-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #FFFFFF;
-            margin-top: 4px;
-            margin-bottom: 4px;
-        }
-        
-        .card-desc {
-            font-size: 10px;
-            color: #94A3B8;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-        
-        .card-button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 30px;
-            height: 30px;
-            background-color: #132238;
-            border: 1px solid #1E3A60;
-            border-radius: 50%;
-            color: #38BDF8;
-            text-decoration: none;
-            font-size: 13px;
-            margin: 0 auto;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        
-        .card-button:hover {
-            background-color: #00A8FF;
-            color: #FFFFFF;
-        }
-        </style>
+    .main-content {{
+        position: relative;
+        z-index: 10;
+        max-width: 700px;
+        margin: 0 auto;
+    }}
 
-        <div class="wave-background">
-            <div class="wave"></div>
-            <div class="wave"></div>
-        </div>
-    """, unsafe_allow_html=True)
+    .grid-container {{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 12px;
+    }}
+    
+    .custom-card {{
+        background-color: rgba(13, 23, 43, 0.85);
+        border: 1px solid #1E2D4A;
+        border-radius: 14px;
+        padding: 14px 10px;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 195px;
+        backdrop-filter: blur(8px);
+        transition: border-color 0.3s, transform 0.2s;
+    }}
+    
+    .custom-card:hover {{
+        border-color: #00A8FF;
+        transform: translateY(-2px);
+    }}
+    
+    .status-card {{
+        background-color: rgba(13, 23, 43, 0.85);
+        border: 1px solid #1E2D4A;
+        border-radius: 16px;
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        backdrop-filter: blur(8px);
+    }}
+    
+    .welcome-title {{
+        font-size: 24px;
+        font-weight: 700;
+        color: #FFFFFF;
+        margin-top: 0px;
+        margin-bottom: 2px;
+    }}
+    
+    .welcome-subtitle {{
+        font-size: 13px;
+        color: #94A3B8;
+        margin-bottom: 12px;
+    }}
+    
+    .card-title {{
+        font-size: 13px;
+        font-weight: 600;
+        color: #FFFFFF;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }}
+    
+    .card-desc {{
+        font-size: 10px;
+        color: #94A3B8;
+        margin-bottom: 10px;
+        line-height: 1.2;
+    }}
+    
+    .card-button {{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        background-color: #132238;
+        border: 1px solid #1E3A60;
+        border-radius: 50%;
+        color: #38BDF8;
+        text-decoration: none;
+        font-size: 13px;
+        margin: 0 auto;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }}
+    
+    .card-button:hover {{
+        background-color: #00A8FF;
+        color: #FFFFFF;
+    }}
+    
+    .footer-links {{
+        text-align: center;
+        color: #64748B;
+        font-size: 11px;
+        margin-top: 10px;
+    }}
+    
+    .footer-links a {{
+        color: #38BDF8;
+        text-decoration: none;
+    }}
+
+    {css_ancho_total}
+    </style>
+
+    <div class="wave-background">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+""", unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
 # VISTA PRINCIPAL (HOME)
@@ -244,7 +275,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA (USANDO STREAMLIT COMPONENTS PARA AISLAR EL IFRAME A PANTALLA COMPLETA REAL)
+# VISTA INTERNA
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -257,61 +288,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Botón flotante superior para regresar al menú principal de forma limpia
-        st.markdown("""
-            <style>
-            .btn-regresar {
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                z-index: 999999;
-                background-color: rgba(13, 23, 43, 0.9);
-                color: #38BDF8;
-                border: 1px solid #1E3A60;
-                padding: 6px 14px;
-                border-radius: 20px;
-                font-size: 12px;
-                font-weight: 600;
-                text-decoration: none;
-                backdrop-filter: blur(4px);
-                box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-            }
-            .btn-regresar:hover {
-                background-color: #00A8FF;
-                color: #FFFFFF;
-            }
-            </style>
-            <a href="?vista=home" target="_self" class="btn-regresar">← Volver al Menú</a>
-        """, unsafe_allow_html=True)
-
-        # Usar components.html para renderizar un marco aislado que ocupa la pantalla completa real sin el recuadro blanco
-        component_code = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <style>
-                html, body {{
-                    margin: 0;
-                    padding: 0;
-                    width: 100vw;
-                    height: 100vh;
-                    height: 100dvh;
-                    background-color: #050a10;
-                    overflow: hidden;
-                }}
-                iframe {{
-                    width: 100%;
-                    height: 100%;
-                    border: none;
-                    background-color: #050a10;
-                }}
-            </style>
-        </head>
-        <body>
-            <iframe src="{url_activa}" scrolling="yes"></iframe>
-        </body>
-        </html>
-        """
-        components.html(component_code, height=800, scrolling=False)
+        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
