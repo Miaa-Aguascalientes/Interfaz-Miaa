@@ -253,12 +253,13 @@ if vista_actual == 'home':
     """
     st.markdown(cards_html, unsafe_allow_html=True)
 
+    current_year = date.today().year
     st.markdown("""
         <div class="status-card">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
                 <div>
-                    <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
+                    <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Desarrollo. Pedro Guillermo Templos</div>
                     <div style="font-size: 9px; color: #94A3B8;">© {current_year} Miaa Tecnologia e innovación.</div>
                 </div>
             </div>
@@ -269,13 +270,7 @@ if vista_actual == 'home':
         </div>
     """, unsafe_allow_html=True)
 
-    current_year = date.today().year
-    st.markdown(f"""
-        <div class="footer-links">
-            🔒 <a href="#">Desarrollo. Pedro Guillermo Templos</a><br>
-            © {current_year} Miaa Tecnologia e innovación.
-        </div>
-    """, unsafe_allow_html=True)
+
 
     st.markdown('</div>', unsafe_allow_html=True)
 
