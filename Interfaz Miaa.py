@@ -260,7 +260,7 @@ if vista_actual == 'home':
                 <div style="font-size: 10px; color: #38BDF8;">🛡️</div>
                 <div>
                     <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Desarrollo. Pedro Guillermo Templos</div>
-                    <div style="font-size: 9px; color: #94A3B8;">Miaa Tecnologia e innovación.</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Tecnologia e innovación.</div>
                 </div>
             </div>
             <div style="text-align: right; min-width: 80px;">
