@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import date
 
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
@@ -14,46 +13,44 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Ocultar elementos molestos de Streamlit */
-    header, footer, [data-testid="stStatusWidget"], #MainMenu {
+    /* 1. Destruir toda la interfaz, barras, headers y footers de Streamlit */
+    header, footer, [data-testid="stStatusWidget"], #MainMenu, .viewerBadge_container, div[class*="viewerBadge"], .stFooter, a[href*="streamlit.io/cloud"] {
         display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
     }
     
-    .stApp {
+    /* 2. Forzar el fondo negro absoluto en toda la ventana del navegador */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        background-color: #050a10 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+
+    /* 3. Matar el contenedor principal con borde blanco de Streamlit */
+    .main, .block-container, [data-testid="stVerticalBlock"], [data-testid="element-container"], div.stElementContainer {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
-        background-color: #050a10 !important;
-        overflow: hidden !important;
-    }
-
-    .block-container {
-        position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
         max-width: 100% !important;
+        max-height: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
-        background-color: #050a10 !important;
-        overflow: hidden !important;
-    }
-
-    /* ELIMINAR CUALQUIER RECUADRO, BORDE O PADDING DE LOS CONTENEDORES INTERNOS */
-    div[data-testid="element-container"], div.stElementContainer, div[data-testid="stVerticalBlock"] {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
         background-color: #050a10 !important;
         border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        z-index: 99999 !important;
     }
     """
 
@@ -291,7 +288,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA (USANDO HTML PURO EN VEZ DE st.components.v1.iframe)
+# VISTA INTERNA (FORZANDO EL IFRAME A CUBRIR TODA LA PANTALLA)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -304,9 +301,8 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Reemplazamos el componente de Streamlit por una etiqueta iframe HTML pura 
-        # con dimensiones 100vw y 100dvh para que responda dinámicamente al girar la pantalla
+        # Este iframe HTML puro anula cualquier contenedor de Streamlit y se expande al 100% real de la pantalla
         html_iframe = f"""
-        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 999999;" scrolling="yes"></iframe>
+        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
         """
         st.markdown(html_iframe, unsafe_allow_html=True)
