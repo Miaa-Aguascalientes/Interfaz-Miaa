@@ -1,5 +1,4 @@
 import streamlit as st
-from datetime import date
 
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
@@ -14,36 +13,63 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    .block-container {
+    /* Destruir elementos de Streamlit en vistas internas */
+    header, footer, [data-testid="stStatusWidget"], #MainMenu, .viewerBadge_container, div[class*="viewerBadge"], .stFooter, a[href*="streamlit.io/cloud"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
+    }
+    
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        background-color: #050a10 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+    }
+
+    /* Romper por completo la tarjeta blanca y forzar cobertura total */
+    .main, .block-container, [data-testid="stVerticalBlock"], [data-testid="element-container"], div.stElementContainer {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
         max-width: 100% !important;
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
-        padding-top: 0rem !important;
-        padding-bottom: 0rem !important;
+        max-height: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
         background-color: #050a10 !important;
-    }
-    
-    iframe {
-        width: 100% !important;
-        height: 100vh !important;
         border: none !important;
-        background-color: #050a10 !important;
-    }
-    
-    div[data-testid="stIFrame"] {
-        width: 100% !important;
-        height: 100vh !important;
-        background-color: #050a10 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        z-index: 999999 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base y ajuste para subir componentes al máximo */
+    /* Configuración base para el Home */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
     .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
-    header, footer {{ visibility: hidden !important; background-color: #050a10 !important; }}
-    #MainMenu {{ visibility: hidden; }}
+    
+    header, footer, [data-testid="stStatusWidget"], #MainMenu, 
+    .viewerBadge_container, div[class*="viewerBadge"], 
+    .stFooter, a[href*="streamlit.io/cloud"] {{
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
+    }}
 
     .wave-background {{
         position: fixed;
@@ -177,18 +203,6 @@ st.markdown(f"""
         background-color: #00A8FF;
         color: #FFFFFF;
     }}
-    
-    .footer-links {{
-        text-align: center;
-        color: #64748B;
-        font-size: 11px;
-        margin-top: 10px;
-    }}
-    
-    .footer-links a {{
-        color: #38BDF8;
-        text-decoration: none;
-    }}
 
     {css_ancho_total}
     </style>
@@ -275,7 +289,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA
+# VISTA INTERNA (FORZANDO EL IFRAME A OCUPAR 100% REAL)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -288,4 +302,7 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
+        html_iframe = f"""
+        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
+        """
+        st.markdown(html_iframe, unsafe_allow_html=True)
