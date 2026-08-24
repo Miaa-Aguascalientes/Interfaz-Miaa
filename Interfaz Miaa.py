@@ -7,7 +7,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Estilos y estructura principal limpia sin bucles de redirección
+# Estilos limpios y profesionales
 st.markdown("""
     <style>
     .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
@@ -59,33 +59,6 @@ st.markdown("""
         padding: 10px;
     }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 12px;
-    }
-    
-    .custom-card {
-        background-color: rgba(13, 23, 43, 0.85);
-        border: 1px solid #1E2D4A;
-        border-radius: 14px;
-        padding: 14px 10px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 195px;
-        backdrop-filter: blur(8px);
-        transition: border-color 0.3s, transform 0.2s;
-    }
-    
-    .custom-card:hover {
-        border-color: #00A8FF;
-        transform: translateY(-2px);
-    }
-    
     .status-card {
         background-color: rgba(13, 23, 43, 0.85);
         border: 1px solid #1E2D4A;
@@ -94,7 +67,7 @@ st.markdown("""
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 5px;
+        margin-top: 15px;
         margin-bottom: 10px;
         backdrop-filter: blur(8px);
     }
@@ -110,44 +83,7 @@ st.markdown("""
     .welcome-subtitle {
         font-size: 13px;
         color: #94A3B8;
-        margin-bottom: 12px;
-    }
-    
-    .card-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #FFFFFF;
-        margin-top: 4px;
-        margin-bottom: 4px;
-    }
-    
-    .card-desc {
-        font-size: 10px;
-        color: #94A3B8;
-        margin-bottom: 10px;
-        line-height: 1.2;
-    }
-    
-    .card-button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 30px;
-        height: 30px;
-        background-color: #132238;
-        border: 1px solid #1E3A60;
-        border-radius: 50%;
-        color: #38BDF8;
-        text-decoration: none;
-        font-size: 13px;
-        margin: 0 auto;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .card-button:hover {
-        background-color: #00A8FF;
-        color: #FFFFFF;
+        margin-bottom: 15px;
     }
     </style>
 
@@ -164,58 +100,71 @@ st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo
 
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-# URLs directas de cada aplicación
+# URLs de las aplicaciones
 url_registro = "https://registro-de-usuarios.streamlit.app/"
 url_scada = "https://sistema-scada-smartphone.streamlit.app/"
 url_op = "https://telegram-scada.streamlit.app/"
 url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
 url_telegram = "https://registro-de-usuarios-telegram.streamlit.app/"
 
-cards_html = f"""
-<div class="grid-container">
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">👤➕</div>
-            <div class="card-title">Registro de usuarios</div>
-            <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
-        </div>
-        <div><a href="{url_registro}" target="_self" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">💧📊</div>
-            <div class="card-title">Sistema Scada</div>
-            <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
-        </div>
-        <div><a href="{url_scada}" target="_self" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #00A8FF; margin-bottom: 2px;">🖥️📈</div>
-            <div class="card-title">Consola de OP</div>
-            <div class="card-desc">Visualiza y controla la operación del sistema</div>
-        </div>
-        <div><a href="{url_op}" target="_self" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card">
-        <div>
-            <div style="font-size: 24px; color: #F59E0B; margin-bottom: 2px;">⚠️</div>
-            <div class="card-title">Eventos operativos</div>
-            <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
-        </div>
-        <div><a href="{url_eventos}" target="_self" class="card-button">➔</a></div>
-    </div>
-    <div class="custom-card" style="grid-column: span 2;">
-        <div>
-            <div style="margin-bottom: 4px;"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="28px" alt="Logo Telegram" style="vertical-align: middle;"></div>
-            <div class="card-title">Registro Telegram</div>
-            <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
-        </div>
-        <div><a href="{url_telegram}" target="_self" class="card-button">➔</a></div>
-    </div>
-</div>
-"""
-st.markdown(cards_html, unsafe_allow_html=True)
+# Usamos columnas nativas con st.link_button para evitar cualquier redirección fantasma o bucle en móviles
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("""
+        <div style="background-color: rgba(13, 23, 43, 0.85); border: 1px solid #1E2D4A; border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="font-size: 22px; margin-bottom: 2px;">👤➕</div>
+                <div style="font-size: 13px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">Registro de usuarios</div>
+                <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">Administra y registra nuevos usuarios</div>
+            </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Abrir ➔", url_registro, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("""
+        <div style="background-color: rgba(13, 23, 43, 0.85); border: 1px solid #1E2D4A; border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="font-size: 22px; margin-bottom: 2px;">🖥️📈</div>
+                <div style="font-size: 13px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">Consola de OP</div>
+                <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">Visualiza y controla la operación</div>
+            </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Abrir ➔", url_op, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+        <div style="background-color: rgba(13, 23, 43, 0.85); border: 1px solid #1E2D4A; border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="font-size: 22px; margin-bottom: 2px;">💧📊</div>
+                <div style="font-size: 13px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">Sistema Scada</div>
+                <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">Monitorea pozos y tanques en vivo</div>
+            </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Abrir ➔", url_scada, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("""
+        <div style="background-color: rgba(13, 23, 43, 0.85); border: 1px solid #1E2D4A; border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <div style="font-size: 22px; margin-bottom: 2px;">⚠️</div>
+                <div style="font-size: 13px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">Eventos operativos</div>
+                <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">Consulta alertas e incidencias</div>
+            </div>
+    """, unsafe_allow_html=True)
+    st.link_button("Abrir ➔", url_eventos, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tarjeta inferior ancha para Telegram
+st.markdown("""
+    <div style="background-color: rgba(13, 23, 43, 0.85); border: 1px solid #1E2D4A; border-radius: 14px; padding: 12px; text-align: center; margin-bottom: 10px;">
+        <div style="font-size: 22px; margin-bottom: 2px;">💬</div>
+        <div style="font-size: 13px; font-weight: 600; color: #FFFFFF; margin-bottom: 4px;">Registro Telegram</div>
+        <div style="font-size: 10px; color: #94A3B8; margin-bottom: 8px;">Gestiona altas y notificaciones de Telegram</div>
+""", unsafe_allow_html=True)
+st.link_button("Abrir Registro Telegram ➔", url_telegram, use_container_width=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("""
     <div class="status-card">
