@@ -34,8 +34,9 @@ if vista_actual != 'home':
         position: absolute !important;
         top: 0 !important;
         left: 0 !important;
-        width: 100% !important;
-        height: 100% !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
         max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -43,34 +44,32 @@ if vista_actual != 'home':
         overflow: hidden !important;
     }
 
-    /* FORZAR QUE EL RECUADRO / CONTENEDOR CON BORDE BLANCO SE EXPANDA AL 100% */
-    div[data-testid="stVerticalBlock"], div[data-testid="element-container"], div.stElementContainer {
-        width: 100% !important;
-        height: 100% !important;
+    /* FORZAR EL TAMAÑO DEL RECUADRO CONTENEDOR DEL IFRAME AL 100% REAL DE LA PANTALLA */
+    div[data-testid="stIFrame"], div[data-testid="element-container"], div.stElementContainer {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
         max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
-    div[data-testid="stVerticalBlock"] > div {
-        width: 100% !important;
-        height: 100% !important;
+    div[data-testid="stVerticalBlock"] {
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
     
     iframe {
-        width: 100% !important;
-        height: 100% !important;
+        width: 100vw !important;
+        height: 100vh !important;
         height: 100dvh !important;
         border: none !important;
         background-color: #050a10 !important;
         display: block !important;
-    }
-    
-    div[data-testid="stIFrame"] {
-        width: 100% !important;
-        height: 100% !important;
-        height: 100dvh !important;
         margin: 0 !important;
-        padding: 0 !important;
-        background-color: #050a10 !important;
     }
     """
 
