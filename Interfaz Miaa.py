@@ -14,7 +14,7 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Ocultar elementos de navegación de Streamlit */
+    /* Ocultar elementos molestos de Streamlit */
     header, footer, [data-testid="stStatusWidget"], #MainMenu {
         display: none !important;
     }
@@ -44,32 +44,16 @@ if vista_actual != 'home':
         overflow: hidden !important;
     }
 
-    /* FORZAR EL TAMAÑO DEL RECUADRO CONTENEDOR DEL IFRAME AL 100% REAL DE LA PANTALLA */
-    div[data-testid="stIFrame"], div[data-testid="element-container"], div.stElementContainer {
+    /* ELIMINAR CUALQUIER RECUADRO, BORDE O PADDING DE LOS CONTENEDORES INTERNOS */
+    div[data-testid="element-container"], div.stElementContainer, div[data-testid="stVerticalBlock"] {
         width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
         max-width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-    }
-
-    div[data-testid="stVerticalBlock"] {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    
-    iframe {
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        border: none !important;
         background-color: #050a10 !important;
-        display: block !important;
-        margin: 0 !important;
+        border: none !important;
     }
     """
 
@@ -307,7 +291,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA
+# VISTA INTERNA (USANDO HTML PURO EN VEZ DE st.components.v1.iframe)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -320,4 +304,9 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, scrolling=True)
+        # Reemplazamos el componente de Streamlit por una etiqueta iframe HTML pura 
+        # con dimensiones 100vw y 100dvh para que responda dinámicamente al girar la pantalla
+        html_iframe = f"""
+        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 999999;" scrolling="yes"></iframe>
+        """
+        st.markdown(html_iframe, unsafe_allow_html=True)
