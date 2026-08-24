@@ -59,8 +59,13 @@ st.markdown(f"""
     <style>
     /* Configuración base de la aplicación principal */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
+    
+    /* Ocultar rígidamente elementos de Streamlit, menús y el badge flotante "Built with Streamlit" */
     header, footer, [data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; background-color: #050a10 !important; }}
-    #MainMenu {{ visibility: hidden; }}
+    #MainMenu {{ visibility: hidden !important; display: none !important; }}
+    .viewerBadge_container {{ display: none !important; visibility: hidden !important; }}
+    div[class*="viewerBadge"] {{ display: none !important; visibility: hidden !important; }}
+    a[href*="streamlit.cloud"], a[href*="streamlit.io"] {{ display: none !important; }}
 
     .wave-background {{
         position: fixed;
@@ -305,5 +310,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Se establece altura en 100% para acoplarse estrictamente al contenedor CSS de pantalla completa
         st.components.v1.iframe(url_activa, height=1000, scrolling=True)
