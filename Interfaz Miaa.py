@@ -14,23 +14,29 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    .block-container {
-        max-width: 100% !important;
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
-        padding-top: 0rem !important;
-        padding-bottom: 0rem !important;
-        background-color: #050a10 !important;
+    /* Eliminar márgenes y ajustar contenedores al 100% real de la pantalla del móvil */
+    html, body, [data-testid="stAppViewContainer"], .stApp {
+        overflow: hidden !important;
         height: 100vh !important;
         height: 100dvh !important;
+    }
+
+    .block-container {
+        max-width: 100% !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #050a10 !important;
     }
     
     iframe {
         width: 100% !important;
-        height: calc(100vh - 2px) !important;
-        height: calc(100dvh - 2px) !important;
+        height: 100vh !important;
+        height: 100dvh !important;
         border: none !important;
         background-color: #050a10 !important;
+        display: block !important;
     }
     
     div[data-testid="stIFrame"] {
@@ -38,21 +44,17 @@ if vista_actual != 'home':
         height: 100vh !important;
         height: 100dvh !important;
         background-color: #050a10 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base y ajuste para ocultar footer flotante y elementos de Streamlit */
+    /* Configuración base de la aplicación principal */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
-    .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
     header, footer, [data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; background-color: #050a10 !important; }}
     #MainMenu {{ visibility: hidden; }}
-
-    /* Ocultar el botón flotante de "Built with Streamlit" */
-    footer {{ visibility: hidden !important; display: none !important; }}
-    .viewerBadge_container__1QSob {{ display: none !important; }}
-    div[class*="viewerBadge"] {{ display: none !important; }}
 
     .wave-background {{
         position: fixed;
@@ -297,5 +299,5 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Forzar altura utilizando 100vh / 100dvh directamente en el componente de Streamlit
-        st.components.v1.iframe(url_activa, height=850, scrolling=True)
+        # Usamos un parámetro de altura grande en el iframe para que el CSS responsivo (100vh/100dvh) lo domine y fuerce el ajuste perfecto al girar
+        st.components.v1.iframe(url_activa, height=1200, scrolling=True)
