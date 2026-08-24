@@ -13,7 +13,7 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* 1. Destruir toda la interfaz, barras, headers y footers de Streamlit */
+    /* Destruir elementos de Streamlit en vistas internas */
     header, footer, [data-testid="stStatusWidget"], #MainMenu, .viewerBadge_container, div[class*="viewerBadge"], .stFooter, a[href*="streamlit.io/cloud"] {
         display: none !important;
         visibility: hidden !important;
@@ -22,7 +22,6 @@ if vista_actual != 'home':
         pointer-events: none !important;
     }
     
-    /* 2. Forzar el fondo negro absoluto en toda la ventana del navegador */
     html, body, [data-testid="stAppViewContainer"], .stApp {
         background-color: #050a10 !important;
         overflow: hidden !important;
@@ -33,7 +32,7 @@ if vista_actual != 'home':
         height: 100dvh !important;
     }
 
-    /* 3. Matar el contenedor principal con borde blanco de Streamlit */
+    /* Forzar que el contenedor de Streamlit cubra toda la pantalla sin bordes */
     .main, .block-container, [data-testid="stVerticalBlock"], [data-testid="element-container"], div.stElementContainer {
         position: fixed !important;
         top: 0 !important;
@@ -288,7 +287,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA (FORZANDO EL IFRAME A CUBRIR TODA LA PANTALLA)
+# VISTA INTERNA (CON SCRIPT DE AUTO-AJUSTE DINÁMICO)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -301,8 +300,19 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Este iframe HTML puro anula cualquier contenedor de Streamlit y se expande al 100% real de la pantalla
+        # Iframe HTML puro acompañado de un script que obliga al contenido a expandirse y adaptarse al girar la pantalla
         html_iframe = f"""
-        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
+        <iframe id="app-iframe" src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
+        
+        <script>
+        // Forzar redibujado y ajuste automático cuando el usuario gira el celular (cambio de orientación)
+        window.addEventListener('resize', function() {{
+            var iframe = document.getElementById('app-iframe');
+            if(iframe) {{
+                iframe.style.width = '100vw';
+                iframe.style.height = '100dvh';
+            }}
+        }});
+        </script>
         """
         st.markdown(html_iframe, unsafe_allow_html=True)
