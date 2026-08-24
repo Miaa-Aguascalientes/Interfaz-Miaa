@@ -10,68 +10,23 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-css_ancho_total = ""
-if vista_actual != 'home':
-    css_ancho_total = """
-    /* Destruir elementos de Streamlit en vistas internas */
-    header, footer, [data-testid="stStatusWidget"], #MainMenu, .viewerBadge_container, div[class*="viewerBadge"], .stFooter, a[href*="streamlit.io/cloud"] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-        pointer-events: none !important;
-    }
-    
-    html, body, [data-testid="stAppViewContainer"], .stApp {
-        background-color: #050a10 !important;
-        overflow: hidden !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-    }
-
-    /* Romper por completo la tarjeta blanca y forzar cobertura total */
-    .main, .block-container, [data-testid="stVerticalBlock"], [data-testid="element-container"], div.stElementContainer {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        max-width: 100% !important;
-        max-height: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        background-color: #050a10 !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        overflow: hidden !important;
-        z-index: 999999 !important;
-    }
-    """
-
-st.markdown(f"""
+# CSS para el Home o para limpiar la interfaz general
+st.markdown("""
     <style>
-    /* Configuración base para el Home */
-    .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
-    .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
+    .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
+    .block-container { padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }
     
     header, footer, [data-testid="stStatusWidget"], #MainMenu, 
     .viewerBadge_container, div[class*="viewerBadge"], 
-    .stFooter, a[href*="streamlit.io/cloud"] {{
+    .stFooter, a[href*="streamlit.io/cloud"] {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         height: 0 !important;
         pointer-events: none !important;
-    }}
+    }
 
-    .wave-background {{
+    .wave-background {
         position: fixed;
         top: 0;
         left: 0;
@@ -81,9 +36,9 @@ st.markdown(f"""
         pointer-events: none;
         background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
         overflow: hidden;
-    }}
+    }
     
-    .wave {{
+    .wave {
         position: absolute;
         bottom: 0;
         left: 0;
@@ -92,35 +47,35 @@ st.markdown(f"""
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
         background-repeat: repeat-x;
         animation: wave-animation 15s linear infinite;
-    }}
+    }
     
-    .wave:nth-of-type(2) {{
+    .wave:nth-of-type(2) {
         bottom: 10px;
         opacity: 0.5;
         animation: wave-animation 25s linear infinite reverse;
         background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
-    }}
+    }
 
-    @keyframes wave-animation {{
-        0% {{ transform: translateX(0); }}
-        100% {{ transform: translateX(-50%); }}
-    }}
+    @keyframes wave-animation {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
 
-    .main-content {{
+    .main-content {
         position: relative;
         z-index: 10;
         max-width: 700px;
         margin: 0 auto;
-    }}
+    }
 
-    .grid-container {{
+    .grid-container {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 12px;
-    }}
+    }
     
-    .custom-card {{
+    .custom-card {
         background-color: rgba(13, 23, 43, 0.85);
         border: 1px solid #1E2D4A;
         border-radius: 14px;
@@ -133,14 +88,14 @@ st.markdown(f"""
         min-height: 195px;
         backdrop-filter: blur(8px);
         transition: border-color 0.3s, transform 0.2s;
-    }}
+    }
     
-    .custom-card:hover {{
+    .custom-card:hover {
         border-color: #00A8FF;
         transform: translateY(-2px);
-    }}
+    }
     
-    .status-card {{
+    .status-card {
         background-color: rgba(13, 23, 43, 0.85);
         border: 1px solid #1E2D4A;
         border-radius: 16px;
@@ -151,38 +106,38 @@ st.markdown(f"""
         margin-top: 5px;
         margin-bottom: 10px;
         backdrop-filter: blur(8px);
-    }}
+    }
     
-    .welcome-title {{
+    .welcome-title {
         font-size: 24px;
         font-weight: 700;
         color: #FFFFFF;
         margin-top: 0px;
         margin-bottom: 2px;
-    }}
+    }
     
-    .welcome-subtitle {{
+    .welcome-subtitle {
         font-size: 13px;
         color: #94A3B8;
         margin-bottom: 12px;
-    }}
+    }
     
-    .card-title {{
+    .card-title {
         font-size: 13px;
         font-weight: 600;
         color: #FFFFFF;
         margin-top: 4px;
         margin-bottom: 4px;
-    }}
+    }
     
-    .card-desc {{
+    .card-desc {
         font-size: 10px;
         color: #94A3B8;
         margin-bottom: 10px;
         line-height: 1.2;
-    }}
+    }
     
-    .card-button {{
+    .card-button {
         display: inline-flex;
         justify-content: center;
         align-items: center;
@@ -197,14 +152,12 @@ st.markdown(f"""
         margin: 0 auto;
         cursor: pointer;
         transition: background-color 0.3s, color 0.3s;
-    }}
+    }
     
-    .card-button:hover {{
+    .card-button:hover {
         background-color: #00A8FF;
         color: #FFFFFF;
-    }}
-
-    {css_ancho_total}
+    }
     </style>
 
     <div class="wave-background">
@@ -289,7 +242,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA (FORZANDO EL IFRAME A OCUPAR 100% REAL)
+# VISTA INTERNA (MATANDO EL RECUADRO BLANCO MEDIANTE UN SCRIPT DE ANCLAJE GLOBAL)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -302,7 +255,37 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        html_iframe = f"""
-        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
+        # Este bloque inyecta un script que busca el contenedor padre de Streamlit y lo fuerza a salir del flujo normal de la página
+        script_destructor_blanco = f"""
+        <div id="full-viewport-wrapper" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background-color: #050a10; z-index: 99999999; margin: 0; padding: 0; overflow: hidden;">
+            <iframe src="{url_activa}" style="width: 100%; height: 100%; border: none; background-color: #050a10; margin: 0; padding: 0;" scrolling="yes"></iframe>
+        </div>
+        
+        <script>
+        // Forzar al script a subir por el DOM de Streamlit para apagar cualquier tarjeta o padding blanco circundante
+        try {{
+            let container = document.getElementById('full-viewport-wrapper');
+            let parentElement = container.closest('.element-container');
+            if (parentElement) {{
+                parentElement.style.position = 'fixed';
+                parentElement.style.top = '0';
+                parentElement.style.left = '0';
+                parentElement.style.width = '100vw';
+                parentElement.style.height = '100vh';
+                parentElement.style.zIndex = '99999999';
+                parentElement.style.padding = '0';
+                parentElement.style.margin = '0';
+                parentElement.style.background = '#050a10';
+            }}
+            let blockContainer = container.closest('.block-container');
+            if (blockContainer) {{
+                blockContainer.style.maxWidth = '100%';
+                blockContainer.style.padding = '0';
+                blockContainer.style.margin = '0';
+            }}
+        }} catch(e) {{
+            console.error(e);
+        }}
+        </script>
         """
-        st.markdown(html_iframe, unsafe_allow_html=True)
+        st.markdown(script_destructor_blanco, unsafe_allow_html=True)
