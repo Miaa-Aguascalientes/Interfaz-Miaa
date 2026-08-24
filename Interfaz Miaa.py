@@ -259,7 +259,7 @@ if vista_actual == 'home':
                 <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
                 <div>
                     <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Seguridad y confiabilidad</div>
-                    <div style="font-size: 9px; color: #94A3B8;">Protegemos la información y la disponibilidad</div>
+                    <div style="font-size: 9px; color: #94A3B8;">© {current_year} Miaa Tecnologia e innovación.</div>
                 </div>
             </div>
             <div style="text-align: right; min-width: 80px;">
