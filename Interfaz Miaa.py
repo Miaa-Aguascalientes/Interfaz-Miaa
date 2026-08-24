@@ -21,11 +21,14 @@ if vista_actual != 'home':
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
         background-color: #050a10 !important;
+        height: 100vh !important;
+        height: 100dvh !important;
     }
     
     iframe {
         width: 100% !important;
-        height: 100vh !important;
+        height: calc(100vh - 2px) !important;
+        height: calc(100dvh - 2px) !important;
         border: none !important;
         background-color: #050a10 !important;
     }
@@ -33,17 +36,23 @@ if vista_actual != 'home':
     div[data-testid="stIFrame"] {
         width: 100% !important;
         height: 100vh !important;
+        height: 100dvh !important;
         background-color: #050a10 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base y ajuste para subir componentes al máximo */
+    /* Configuración base y ajuste para ocultar footer flotante y elementos de Streamlit */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
     .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
-    header, footer {{ visibility: hidden !important; background-color: #050a10 !important; }}
+    header, footer, [data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; background-color: #050a10 !important; }}
     #MainMenu {{ visibility: hidden; }}
+
+    /* Ocultar el botón flotante de "Built with Streamlit" */
+    footer {{ visibility: hidden !important; display: none !important; }}
+    .viewerBadge_container__1QSob {{ display: none !important; }}
+    div[class*="viewerBadge"] {{ display: none !important; }}
 
     .wave-background {{
         position: fixed;
@@ -288,4 +297,5 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
+        # Forzar altura utilizando 100vh / 100dvh directamente en el componente de Streamlit
+        st.components.v1.iframe(url_activa, height=850, scrolling=True)
