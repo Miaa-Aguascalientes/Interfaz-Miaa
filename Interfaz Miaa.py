@@ -253,14 +253,14 @@ if vista_actual == 'home':
     """
     st.markdown(cards_html, unsafe_allow_html=True)
 
-    current_year = date.today().year
+    
     st.markdown("""
         <div class="status-card">
             <div style="display: flex; align-items: center; gap: 8px;">
-                <div style="font-size: 20px; color: #38BDF8;">🛡️</div>
+                <div style="font-size: 10px; color: #38BDF8;">🛡️</div>
                 <div>
                     <div style="font-size: 12px; font-weight: 600; color: #FFFFFF;">Desarrollo. Pedro Guillermo Templos</div>
-                    <div style="font-size: 9px; color: #94A3B8;">© {current_year} Miaa Tecnologia e innovación.</div>
+                    <div style="font-size: 9px; color: #94A3B8;">Miaa Tecnologia e innovación.</div>
                 </div>
             </div>
             <div style="text-align: right; min-width: 80px;">
