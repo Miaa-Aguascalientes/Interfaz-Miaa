@@ -32,11 +32,13 @@ if vista_actual != 'home':
         height: 100dvh !important;
     }
 
-    /* Forzar que el contenedor de Streamlit cubra toda la pantalla sin bordes */
+    /* Romper por completo la tarjeta blanca y forzar cobertura total */
     .main, .block-container, [data-testid="stVerticalBlock"], [data-testid="element-container"], div.stElementContainer {
         position: fixed !important;
         top: 0 !important;
         left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
@@ -49,7 +51,7 @@ if vista_actual != 'home':
         box-shadow: none !important;
         border-radius: 0 !important;
         overflow: hidden !important;
-        z-index: 99999 !important;
+        z-index: 999999 !important;
     }
     """
 
@@ -287,7 +289,7 @@ if vista_actual == 'home':
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
-# VISTA INTERNA (CON SCRIPT DE AUTO-AJUSTE DINÁMICO)
+# VISTA INTERNA (FORZANDO EL IFRAME A OCUPAR 100% REAL)
 # -------------------------------------------------------------------------
 else:
     urls = {
@@ -300,19 +302,7 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Iframe HTML puro acompañado de un script que obliga al contenido a expandirse y adaptarse al girar la pantalla
         html_iframe = f"""
-        <iframe id="app-iframe" src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
-        
-        <script>
-        // Forzar redibujado y ajuste automático cuando el usuario gira el celular (cambio de orientación)
-        window.addEventListener('resize', function() {{
-            var iframe = document.getElementById('app-iframe');
-            if(iframe) {{
-                iframe.style.width = '100vw';
-                iframe.style.height = '100dvh';
-            }}
-        }});
-        </script>
+        <iframe src="{url_activa}" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; border: none; background-color: #050a10; margin: 0; padding: 0; z-index: 9999999;" scrolling="yes"></iframe>
         """
         st.markdown(html_iframe, unsafe_allow_html=True)
