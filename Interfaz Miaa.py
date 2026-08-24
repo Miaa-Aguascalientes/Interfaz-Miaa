@@ -89,7 +89,7 @@ st.markdown(f"""
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 12px;
-    })
+    }}
     
     .custom-card {{
         background-color: rgba(13, 23, 43, 0.85);
