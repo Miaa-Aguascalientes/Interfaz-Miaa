@@ -14,40 +14,63 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    .block-container {
-        max-width: 100% !important;
-        padding-left: 0rem !important;
-        padding-right: 0rem !important;
-        padding-top: 0rem !important;
-        padding-bottom: 0rem !important;
+    /* Forzar ocultar la navegación de Streamlit y barra superior en vistas internas */
+    header, footer, [data-testid="stStatusWidget"], #MainMenu {
+        display: none !important;
+    }
+    
+    .stApp {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important; /* Altura dinámica real para móviles en horizontal/vertical */
         background-color: #050a10 !important;
+        overflow: hidden !important;
+    }
+
+    .block-container {
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #050a10 !important;
+        overflow: hidden !important;
     }
     
     iframe {
         width: 100% !important;
-        height: 100vh !important;
-        min-height: 850px !important;
+        height: 100% !important;
+        height: 100dvh !important;
         border: none !important;
         background-color: #050a10 !important;
+        display: block !important;
     }
     
     div[data-testid="stIFrame"] {
         width: 100% !important;
-        height: 100vh !important;
-        min-height: 850px !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        margin: 0 !important;
+        padding: 0 !important;
         background-color: #050a10 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base y ocultar absolutamente todo rastro de Streamlit (Built with Streamlit, footers, badges) */
+    /* Configuración base para el Home */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
     .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
     
     header, footer, [data-testid="stStatusWidget"], #MainMenu, 
     .viewerBadge_container, div[class*="viewerBadge"], 
-    footer, .stFooter, a[href*="streamlit.io/cloud"] {{
+    .stFooter, a[href*="streamlit.io/cloud"] {{
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -286,4 +309,5 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=900, scrolling=True)
+        # Se omite el parámetro height numérico estático para delegarle el control absoluto al CSS 100dvh
+        st.components.v1.iframe(url_activa, scrolling=True)
