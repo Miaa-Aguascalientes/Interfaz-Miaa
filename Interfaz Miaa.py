@@ -26,6 +26,7 @@ if vista_actual != 'home':
     iframe {
         width: 100% !important;
         height: 100vh !important;
+        min-height: 750px !important;
         border: none !important;
         background-color: #050a10 !important;
     }
@@ -33,6 +34,7 @@ if vista_actual != 'home':
     div[data-testid="stIFrame"] {
         width: 100% !important;
         height: 100vh !important;
+        min-height: 750px !important;
         background-color: #050a10 !important;
     }
     """
@@ -288,4 +290,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
+        st.components.v1.iframe(url_activa, height=850, scrolling=True)
