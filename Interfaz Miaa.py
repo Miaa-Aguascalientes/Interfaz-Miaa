@@ -243,7 +243,7 @@ if vista_actual == 'home':
         </div>
         <div class="custom-card" style="grid-column: span 2;">
             <div>
-                <div style="font-size: 24px; color: #22C55E; margin-bottom: 2px;">🤖📱</div>
+                <div style="margin-bottom: 4px;"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="28px" alt="Logo Telegram" style="vertical-align: middle;"></div>
                 <div class="card-title">Registro Telegram</div>
                 <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
             </div>
