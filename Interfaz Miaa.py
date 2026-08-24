@@ -14,11 +14,14 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Eliminar márgenes y ajustar contenedores al 100% real de la pantalla del móvil */
+    /* Forzar pantalla completa absoluta sin márgenes para las sub-apps */
     html, body, [data-testid="stAppViewContainer"], .stApp {
         overflow: hidden !important;
         height: 100vh !important;
         height: 100dvh !important;
+        background-color: #050a10 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .block-container {
@@ -37,6 +40,8 @@ if vista_actual != 'home':
         border: none !important;
         background-color: #050a10 !important;
         display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     
     div[data-testid="stIFrame"] {
@@ -46,6 +51,7 @@ if vista_actual != 'home':
         background-color: #050a10 !important;
         margin: 0 !important;
         padding: 0 !important;
+        max-width: 100% !important;
     }
     """
 
@@ -299,5 +305,5 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Usamos un parámetro de altura grande en el iframe para que el CSS responsivo (100vh/100dvh) lo domine y fuerce el ajuste perfecto al girar
-        st.components.v1.iframe(url_activa, height=1200, scrolling=True)
+        # Se establece altura en 100% para acoplarse estrictamente al contenedor CSS de pantalla completa
+        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
