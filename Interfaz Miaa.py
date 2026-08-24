@@ -20,40 +20,27 @@ if vista_actual != 'home':
         padding-right: 0rem !important;
         padding-top: 0rem !important;
         padding-bottom: 0rem !important;
-        background-color: #070D19 !important;
+        background-color: #050a10 !important;
     }
     
     iframe {
         width: 100% !important;
         border: none !important;
-        background-color: #070D19 !important;
+        background-color: #050a10 !important;
     }
     
     div[data-testid="stIFrame"] {
-        background-color: #070D19 !important;
+        background-color: #050a10 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    .stApp {{
-        background-color: #070D19;
-        color: #FFFFFF;
-        font-family: 'sans-serif';
-        overflow-x: hidden;
-    }}
-    
-    #MainMenu {{visibility: hidden;}}
-    footer {{visibility: hidden !important; background-color: #070D19 !important;}}
-    header {{visibility: hidden;}}
-
-    .block-container {{
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-        max-width: 100% !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }}
+    /* Configuración base y ajuste para subir componentes al máximo */
+    .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
+    .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
+    header, footer {{ visibility: hidden !important; background-color: #050a10 !important; }}
+    #MainMenu {{ visibility: hidden; }}
 
     .wave-background {{
         position: fixed;
@@ -63,7 +50,7 @@ st.markdown(f"""
         height: 100%;
         z-index: 0;
         pointer-events: none;
-        background: radial-gradient(circle at 50% 20%, #0A1931 0%, #070D19 70%);
+        background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
         overflow: hidden;
     }}
     
@@ -102,7 +89,7 @@ st.markdown(f"""
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         margin-bottom: 12px;
-    }}
+    })
     
     .custom-card {{
         background-color: rgba(13, 23, 43, 0.85);
@@ -141,7 +128,7 @@ st.markdown(f"""
         font-size: 24px;
         font-weight: 700;
         color: #FFFFFF;
-        margin-top: 5px;
+        margin-top: 0px;
         margin-bottom: 2px;
     }}
     
@@ -200,19 +187,6 @@ st.markdown(f"""
         text-decoration: none;
     }}
 
-    .stButton > button {{
-        background-color: #132238 !important;
-        border: 1px solid #00A8FF !important;
-        color: #38BDF8 !important;
-        border-radius: 8px !important;
-        font-weight: 600 !important;
-        width: 100% !important;
-    }}
-    .stButton > button:hover {{
-        background-color: #00A8FF !important;
-        color: #FFFFFF !important;
-    }}
-
     {css_ancho_total}
     </style>
 
@@ -229,7 +203,7 @@ if vista_actual == 'home':
     st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
     logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
-    st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="140px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="130px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
     st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
@@ -266,6 +240,14 @@ if vista_actual == 'home':
                 <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
             </div>
             <div><a href="?vista=eventos" target="_self" class="card-button">➔</a></div>
+        </div>
+        <div class="custom-card" style="grid-column: span 2;">
+            <div>
+                <div style="font-size: 24px; color: #22C55E; margin-bottom: 2px;">🤖📱</div>
+                <div class="card-title">Registro Telegram</div>
+                <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
+            </div>
+            <div><a href="?vista=telegram" target="_self" class="card-button">➔</a></div>
         </div>
     </div>
     """
@@ -305,9 +287,10 @@ else:
         'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
         'scada': "https://sistema-scada-smartphone.streamlit.app/?embed=true",
         'op': "https://telegram-scada.streamlit.app/?embed=true",
-        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true"
+        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true",
+        'telegram': "https://registro-de-usuarios-telegram.streamlit.app/?embed=true"
     }
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=980, scrolling=True)
+        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
