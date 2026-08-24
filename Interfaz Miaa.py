@@ -14,9 +14,16 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Forzar pantalla completa absoluta sin márgenes para las sub-apps */
+    /* Ocultar barra de navegación, menú y footer global de Streamlit */
+    header, footer, [data-testid="stStatusWidget"], #MainMenu, .viewerBadge_container, div[class*="viewerBadge"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+
+    /* Fijar la aplicación principal a pantalla completa real de celular */
     html, body, [data-testid="stAppViewContainer"], .stApp {
         overflow: hidden !important;
+        width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
         background-color: #050a10 !important;
@@ -26,41 +33,41 @@ if vista_actual != 'home':
 
     .block-container {
         max-width: 100% !important;
+        width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
         padding: 0 !important;
         margin: 0 !important;
         background-color: #050a10 !important;
+        overflow: hidden !important;
     }
     
-    iframe {
-        width: 100% !important;
+    /* Forzar que el contenedor del iframe cubra absolutamente todo el espacio disponible */
+    div[data-testid="stIFrame"] {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
         height: 100vh !important;
         height: 100dvh !important;
+        z-index: 999999 !important;
+        background-color: #050a10 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stIFrame"] iframe {
+        width: 100% !important;
+        height: 100% !important;
         border: none !important;
         background-color: #050a10 !important;
         display: block !important;
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-    
-    div[data-testid="stIFrame"] {
-        width: 100% !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        background-color: #050a10 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        max-width: 100% !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base de la aplicación principal */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
-    
-    /* Ocultar rígidamente elementos de Streamlit, menús y el badge flotante "Built with Streamlit" */
     header, footer, [data-testid="stStatusWidget"] {{ visibility: hidden !important; display: none !important; background-color: #050a10 !important; }}
     #MainMenu {{ visibility: hidden !important; display: none !important; }}
     .viewerBadge_container {{ display: none !important; visibility: hidden !important; }}
@@ -310,4 +317,5 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=1000, scrolling=True)
+        # Se renderiza el iframe usando el ancho y alto estricto forzado por CSS fijo
+        st.components.v1.iframe(url_activa, height=800, scrolling=True)
