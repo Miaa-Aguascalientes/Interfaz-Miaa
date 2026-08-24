@@ -25,11 +25,14 @@ if vista_actual != 'home':
     
     iframe {
         width: 100% !important;
+        height: 100vh !important;
         border: none !important;
         background-color: #050a10 !important;
     }
     
     div[data-testid="stIFrame"] {
+        width: 100% !important;
+        height: 100vh !important;
         background-color: #050a10 !important;
     }
     """
@@ -253,7 +256,6 @@ if vista_actual == 'home':
     """
     st.markdown(cards_html, unsafe_allow_html=True)
 
-    
     st.markdown("""
         <div class="status-card">
             <div style="display: flex; align-items: center; gap: 8px;">
@@ -269,8 +271,6 @@ if vista_actual == 'home':
             </div>
         </div>
     """, unsafe_allow_html=True)
-
-
 
     st.markdown('</div>', unsafe_allow_html=True)
 
