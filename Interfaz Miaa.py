@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="Modelo Integral de Aguas de Aguascalientes",
@@ -10,161 +11,162 @@ st.set_page_config(
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# CSS general de la app
-st.markdown("""
-    <style>
-    .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
-    .block-container { padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }
-    
-    header, footer, [data-testid="stStatusWidget"], #MainMenu, 
-    .viewerBadge_container, div[class*="viewerBadge"], 
-    .stFooter, a[href*="streamlit.io/cloud"] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        height: 0 !important;
-        pointer-events: none !important;
-    }
+# CSS para limpiar el diseño general de Streamlit cuando estamos en el Home
+if vista_actual == 'home':
+    st.markdown("""
+        <style>
+        .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
+        .block-container { padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }
+        
+        header, footer, [data-testid="stStatusWidget"], #MainMenu, 
+        .viewerBadge_container, div[class*="viewerBadge"], 
+        .stFooter, a[href*="streamlit.io/cloud"] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            pointer-events: none !important;
+        }
 
-    .wave-background {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        pointer-events: none;
-        background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
-        overflow: hidden;
-    }
-    
-    .wave {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 200%;
-        height: 100%;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
-        background-repeat: repeat-x;
-        animation: wave-animation 15s linear infinite;
-    }
-    
-    .wave:nth-of-type(2) {
-        bottom: 10px;
-        opacity: 0.5;
-        animation: wave-animation 25s linear infinite reverse;
-        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
-    }
+        .wave-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at 50% 20%, #0A1931 0%, #050a10 70%);
+            overflow: hidden;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0 C150,90 350,-40 500,40 C650,120 900,20 1200,60 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.04)"/></svg>');
+            background-repeat: repeat-x;
+            animation: wave-animation 15s linear infinite;
+        }
+        
+        .wave:nth-of-type(2) {
+            bottom: 10px;
+            opacity: 0.5;
+            animation: wave-animation 25s linear infinite reverse;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,30 C200,100 400,0 600,50 C800,100 1000,10 1200,40 L1200,120 L0,120 Z" fill="rgba(0, 168, 255, 0.03)"/></svg>');
+        }
 
-    @keyframes wave-animation {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
+        @keyframes wave-animation {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
 
-    .main-content {
-        position: relative;
-        z-index: 10;
-        max-width: 700px;
-        margin: 0 auto;
-    }
+        .main-content {
+            position: relative;
+            z-index: 10;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-    .grid-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        margin-bottom: 12px;
-    }
-    
-    .custom-card {
-        background-color: rgba(13, 23, 43, 0.85);
-        border: 1px solid #1E2D4A;
-        border-radius: 14px;
-        padding: 14px 10px;
-        text-align: center;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-height: 195px;
-        backdrop-filter: blur(8px);
-        transition: border-color 0.3s, transform 0.2s;
-    }
-    
-    .custom-card:hover {
-        border-color: #00A8FF;
-        transform: translateY(-2px);
-    }
-    
-    .status-card {
-        background-color: rgba(13, 23, 43, 0.85);
-        border: 1px solid #1E2D4A;
-        border-radius: 16px;
-        padding: 12px 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 5px;
-        margin-bottom: 10px;
-        backdrop-filter: blur(8px);
-    }
-    
-    .welcome-title {
-        font-size: 24px;
-        font-weight: 700;
-        color: #FFFFFF;
-        margin-top: 0px;
-        margin-bottom: 2px;
-    }
-    
-    .welcome-subtitle {
-        font-size: 13px;
-        color: #94A3B8;
-        margin-bottom: 12px;
-    }
-    
-    .card-title {
-        font-size: 13px;
-        font-weight: 600;
-        color: #FFFFFF;
-        margin-top: 4px;
-        margin-bottom: 4px;
-    }
-    
-    .card-desc {
-        font-size: 10px;
-        color: #94A3B8;
-        margin-bottom: 10px;
-        line-height: 1.2;
-    }
-    
-    .card-button {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        padding: 8px 0;
-        background-color: #132238;
-        border: 1px solid #1E3A60;
-        border-radius: 8px;
-        color: #38BDF8;
-        text-decoration: none;
-        font-size: 12px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    
-    .card-button:hover {
-        background-color: #00A8FF;
-        color: #FFFFFF;
-    }
-    </style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .custom-card {
+            background-color: rgba(13, 23, 43, 0.85);
+            border: 1px solid #1E2D4A;
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 195px;
+            backdrop-filter: blur(8px);
+            transition: border-color 0.3s, transform 0.2s;
+        }
+        
+        .custom-card:hover {
+            border-color: #00A8FF;
+            transform: translateY(-2px);
+        }
+        
+        .status-card {
+            background-color: rgba(13, 23, 43, 0.85);
+            border: 1px solid #1E2D4A;
+            border-radius: 16px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            backdrop-filter: blur(8px);
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-top: 0px;
+            margin-bottom: 2px;
+        }
+        
+        .welcome-subtitle {
+            font-size: 13px;
+            color: #94A3B8;
+            margin-bottom: 12px;
+        }
+        
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-top: 4px;
+            margin-bottom: 4px;
+        }
+        
+        .card-desc {
+            font-size: 10px;
+            color: #94A3B8;
+            margin-bottom: 10px;
+            line-height: 1.2;
+        }
+        
+        .card-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 30px;
+            height: 30px;
+            background-color: #132238;
+            border: 1px solid #1E3A60;
+            border-radius: 50%;
+            color: #38BDF8;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 0 auto;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .card-button:hover {
+            background-color: #00A8FF;
+            color: #FFFFFF;
+        }
+        </style>
 
-    <div class="wave-background">
-        <div class="wave"></div>
-        <div class="wave"></div>
-    </div>
-""", unsafe_allow_html=True)
+        <div class="wave-background">
+            <div class="wave"></div>
+            <div class="wave"></div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # -------------------------------------------------------------------------
 # VISTA PRINCIPAL (HOME)
@@ -175,18 +177,9 @@ if vista_actual == 'home':
     logo_url = "https://raw.githubusercontent.com/Miaa-Aguascalientes/Logos/38504978c8f77a4dac38ad476f74dbdee6af2cad/LogoMIAA.svg"
     st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo_url}" width="130px" alt="Logo MIAA"><p style="color: #94A3B8; font-size: 10px; margin-top: 2px;">Sistema integral de Aguascalientes</p></div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para abrir el sistema</div>', unsafe_allow_html=True)
+    st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-    # Diccionario con las URLs directas (sin parámetro embed para que abran limpias a pantalla completa)
-    urls = {
-        'registro': "https://registro-de-usuarios.streamlit.app/",
-        'scada': "https://sistema-scada-smartphone.streamlit.app/",
-        'op': "https://telegram-scada.streamlit.app/",
-        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/",
-        'telegram': "https://registro-de-usuarios-telegram.streamlit.app/"
-    }
-
-    cards_html = f"""
+    cards_html = """
     <div class="grid-container">
         <div class="custom-card">
             <div>
@@ -194,7 +187,7 @@ if vista_actual == 'home':
                 <div class="card-title">Registro de usuarios</div>
                 <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
             </div>
-            <div><a href="{urls['registro']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
+            <div><a href="?vista=registro" target="_self" class="card-button">➔</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -202,7 +195,7 @@ if vista_actual == 'home':
                 <div class="card-title">Sistema Scada</div>
                 <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
             </div>
-            <div><a href="{urls['scada']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
+            <div><a href="?vista=scada" target="_self" class="card-button">➔</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -210,7 +203,7 @@ if vista_actual == 'home':
                 <div class="card-title">Consola de OP</div>
                 <div class="card-desc">Visualiza y controla la operación del sistema</div>
             </div>
-            <div><a href="{urls['op']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
+            <div><a href="?vista=op" target="_self" class="card-button">➔</a></div>
         </div>
         <div class="custom-card">
             <div>
@@ -218,7 +211,7 @@ if vista_actual == 'home':
                 <div class="card-title">Eventos operativos</div>
                 <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
             </div>
-            <div><a href="{urls['eventos']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
+            <div><a href="?vista=eventos" target="_self" class="card-button">➔</a></div>
         </div>
         <div class="custom-card" style="grid-column: span 2;">
             <div>
@@ -226,7 +219,7 @@ if vista_actual == 'home':
                 <div class="card-title">Registro Telegram</div>
                 <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
             </div>
-            <div><a href="{urls['telegram']}" target="_blank" class="card-button">Abrir aplicación ↗</a></div>
+            <div><a href="?vista=telegram" target="_self" class="card-button">➔</a></div>
         </div>
     </div>
     """
@@ -250,7 +243,75 @@ if vista_actual == 'home':
 
     st.markdown('</div>', unsafe_allow_html=True)
 
+# -------------------------------------------------------------------------
+# VISTA INTERNA (USANDO STREAMLIT COMPONENTS PARA AISLAR EL IFRAME A PANTALLA COMPLETA REAL)
+# -------------------------------------------------------------------------
 else:
-    # Si por alguna razón entra aquí, redirige automáticamente al home
-    st.query_params.clear()
-    st.rerun()
+    urls = {
+        'registro': "https://registro-de-usuarios.streamlit.app/?embed=true",
+        'scada': "https://sistema-scada-smartphone.streamlit.app/?embed=true",
+        'op': "https://telegram-scada.streamlit.app/?embed=true",
+        'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/?embed=true",
+        'telegram': "https://registro-de-usuarios-telegram.streamlit.app/?embed=true"
+    }
+
+    url_activa = urls.get(vista_actual)
+    if url_activa:
+        # Botón flotante superior para regresar al menú principal de forma limpia
+        st.markdown("""
+            <style>
+            .btn-regresar {
+                position: fixed;
+                top: 10px;
+                left: 10px;
+                z-index: 999999;
+                background-color: rgba(13, 23, 43, 0.9);
+                color: #38BDF8;
+                border: 1px solid #1E3A60;
+                padding: 6px 14px;
+                border-radius: 20px;
+                font-size: 12px;
+                font-weight: 600;
+                text-decoration: none;
+                backdrop-filter: blur(4px);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            }
+            .btn-regresar:hover {
+                background-color: #00A8FF;
+                color: #FFFFFF;
+            }
+            </style>
+            <a href="?vista=home" target="_self" class="btn-regresar">← Volver al Menú</a>
+        """, unsafe_allow_html=True)
+
+        # Usar components.html para renderizar un marco aislado que ocupa la pantalla completa real sin el recuadro blanco
+        component_code = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <style>
+                html, body {{
+                    margin: 0;
+                    padding: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    height: 100dvh;
+                    background-color: #050a10;
+                    overflow: hidden;
+                }}
+                iframe {{
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    background-color: #050a10;
+                }}
+            </style>
+        </head>
+        <body>
+            <iframe src="{url_activa}" scrolling="yes"></iframe>
+        </body>
+        </html>
+        """
+        components.html(component_code, height=800, scrolling=False)
