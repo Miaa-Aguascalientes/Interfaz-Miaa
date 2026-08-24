@@ -7,74 +7,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Diccionario con las URLs directas de tus apps
-urls = {
-    'registro': "https://registro-de-usuarios.streamlit.app/",
-    'scada': "https://sistema-scada-smartphone.streamlit.app/",
-    'op': "https://telegram-scada.streamlit.app/",
-    'eventos': "https://incidencias-en-sitios-miaa.streamlit.app/",
-    'telegram': "https://registro-de-usuarios-telegram.streamlit.app/"
-}
-
-query_params = st.query_params
-vista_actual = query_params.get("vista", "home")
-
-# Si se seleccionó una vista interna, mostramos una pantalla limpia con un botón chingón y legible para entrar o volver
-if vista_actual in urls:
-    url_destino = urls[vista_actual]
-    st.markdown(f"""
-        <style>
-            .stApp {{ background-color: #050a10 !important; color: white; font-family: sans-serif; }}
-            header, footer {{ display: none !important; }}
-            .redirect-container {{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                height: 85vh;
-                text-align: center;
-                padding: 20px;
-            }}
-            .btn-entrar {{
-                display: block;
-                width: 100%;
-                max-width: 320px;
-                padding: 14px 20px;
-                background-color: #00A8FF;
-                color: #ffffff !important;
-                text-decoration: none;
-                border-radius: 12px;
-                font-weight: 700;
-                font-size: 16px;
-                margin-bottom: 15px;
-                box-shadow: 0 4px 12px rgba(0, 168, 255, 0.3);
-            }}
-            .btn-regresar {{
-                display: block;
-                width: 100%;
-                max-width: 320px;
-                padding: 12px 20px;
-                background-color: #132238;
-                color: #38BDF8 !important;
-                border: 1px solid #1E3A60;
-                text-decoration: none;
-                border-radius: 12px;
-                font-weight: 600;
-                font-size: 14px;
-            }}
-        </style>
-        <div class="redirect-container">
-            <h2 style="color: white; margin-bottom: 8px;">Acceso al Sistema</h2>
-            <p style="color: #94A3B8; font-size: 13px; margin-bottom: 30px;">Presiona el botón para abrir la aplicación seleccionada:</p>
-            <a href="{url_destino}" class="btn-entrar" target="_self">🚀 Abrir Aplicación</a>
-            <a href="?vista=home" class="btn-regresar" target="_self">← Volver al Menú Principal</a>
-        </div>
-    """, unsafe_allow_html=True)
-    st.stop()
-
-# -------------------------------------------------------------------------
-# VISTA PRINCIPAL (HOME)
-# -------------------------------------------------------------------------
+# Estilos y estructura principal limpia sin bucles de redirección
 st.markdown("""
     <style>
     .stApp { background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }
@@ -231,7 +164,14 @@ st.markdown(f'<div style="text-align: center; padding-top: 0px;"><img src="{logo
 
 st.markdown('<div class="welcome-title">¡Bienvenido!</div><div class="welcome-subtitle">Selecciona una opción para continuar</div>', unsafe_allow_html=True)
 
-cards_html = """
+# URLs directas de cada aplicación
+url_registro = "https://registro-de-usuarios.streamlit.app/"
+url_scada = "https://sistema-scada-smartphone.streamlit.app/"
+url_op = "https://telegram-scada.streamlit.app/"
+url_eventos = "https://incidencias-en-sitios-miaa.streamlit.app/"
+url_telegram = "https://registro-de-usuarios-telegram.streamlit.app/"
+
+cards_html = f"""
 <div class="grid-container">
     <div class="custom-card">
         <div>
@@ -239,7 +179,7 @@ cards_html = """
             <div class="card-title">Registro de usuarios</div>
             <div class="card-desc">Administra y registra nuevos usuarios del sistema</div>
         </div>
-        <div><a href="?vista=registro" target="_self" class="card-button">➔</a></div>
+        <div><a href="{url_registro}" target="_self" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -247,7 +187,7 @@ cards_html = """
             <div class="card-title">Sistema Scada</div>
             <div class="card-desc">Monitorea en tiempo real pozos, tanques y equipos</div>
         </div>
-        <div><a href="?vista=scada" target="_self" class="card-button">➔</a></div>
+        <div><a href="{url_scada}" target="_self" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -255,7 +195,7 @@ cards_html = """
             <div class="card-title">Consola de OP</div>
             <div class="card-desc">Visualiza y controla la operación del sistema</div>
         </div>
-        <div><a href="?vista=op" target="_self" class="card-button">➔</a></div>
+        <div><a href="{url_op}" target="_self" class="card-button">➔</a></div>
     </div>
     <div class="custom-card">
         <div>
@@ -263,7 +203,7 @@ cards_html = """
             <div class="card-title">Eventos operativos</div>
             <div class="card-desc">Consulta eventos, alertas e incidencias del sistema</div>
         </div>
-        <div><a href="?vista=eventos" target="_self" class="card-button">➔</a></div>
+        <div><a href="{url_eventos}" target="_self" class="card-button">➔</a></div>
     </div>
     <div class="custom-card" style="grid-column: span 2;">
         <div>
@@ -271,7 +211,7 @@ cards_html = """
             <div class="card-title">Registro Telegram</div>
             <div class="card-desc">Gestiona altas y notificaciones vinculadas a Telegram</div>
         </div>
-        <div><a href="?vista=telegram" target="_self" class="card-button">➔</a></div>
+        <div><a href="{url_telegram}" target="_self" class="card-button">➔</a></div>
     </div>
 </div>
 """
