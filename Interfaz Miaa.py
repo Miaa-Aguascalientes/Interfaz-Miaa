@@ -272,8 +272,8 @@ if vista_actual == 'home':
     current_year = date.today().year
     st.markdown(f"""
         <div class="footer-links">
-            🔒 <a href="#">Política de privacidad</a><br>
-            © {current_year} MIAA. Todos los derechos reservados.
+            🔒 <a href="#">Dezarrollo. Pedro Guillermo Templos</a><br>
+            © {current_year} Miaa Tecnologia e innovación.
         </div>
     """, unsafe_allow_html=True)
 
