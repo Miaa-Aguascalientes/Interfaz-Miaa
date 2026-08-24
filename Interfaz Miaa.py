@@ -14,7 +14,7 @@ vista_actual = query_params.get("vista", "home")
 css_ancho_total = ""
 if vista_actual != 'home':
     css_ancho_total = """
-    /* Forzar ocultar la navegación de Streamlit y barra superior en vistas internas */
+    /* Ocultar elementos de navegación de Streamlit */
     header, footer, [data-testid="stStatusWidget"], #MainMenu {
         display: none !important;
     }
@@ -25,7 +25,7 @@ if vista_actual != 'home':
         left: 0 !important;
         width: 100vw !important;
         height: 100vh !important;
-        height: 100dvh !important; /* Altura dinámica real para móviles en horizontal/vertical */
+        height: 100dvh !important;
         background-color: #050a10 !important;
         overflow: hidden !important;
     }
@@ -41,6 +41,18 @@ if vista_actual != 'home':
         margin: 0 !important;
         background-color: #050a10 !important;
         overflow: hidden !important;
+    }
+
+    /* FORZAR QUE EL RECUADRO / CONTENEDOR CON BORDE BLANCO SE EXPANDA AL 100% */
+    div[data-testid="stVerticalBlock"], div[data-testid="element-container"], div.stElementContainer {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+    }
+
+    div[data-testid="stVerticalBlock"] > div {
+        width: 100% !important;
+        height: 100% !important;
     }
     
     iframe {
@@ -309,5 +321,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        # Se omite el parámetro height numérico estático para delegarle el control absoluto al CSS 100dvh
         st.components.v1.iframe(url_activa, scrolling=True)
