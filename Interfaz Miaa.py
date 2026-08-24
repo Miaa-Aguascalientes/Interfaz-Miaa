@@ -26,7 +26,7 @@ if vista_actual != 'home':
     iframe {
         width: 100% !important;
         height: 100vh !important;
-        min-height: 750px !important;
+        min-height: 850px !important;
         border: none !important;
         background-color: #050a10 !important;
     }
@@ -34,18 +34,26 @@ if vista_actual != 'home':
     div[data-testid="stIFrame"] {
         width: 100% !important;
         height: 100vh !important;
-        min-height: 750px !important;
+        min-height: 850px !important;
         background-color: #050a10 !important;
     }
     """
 
 st.markdown(f"""
     <style>
-    /* Configuración base y ajuste para subir componentes al máximo */
+    /* Configuración base y ocultar absolutamente todo rastro de Streamlit (Built with Streamlit, footers, badges) */
     .stApp {{ background-color: #050a10 !important; color: #FFFFFF; font-family: 'sans-serif'; overflow-x: hidden; }}
     .block-container {{ padding: 0px 10px !important; padding-top: 0rem !important; max-width: 100% !important; }}
-    header, footer {{ visibility: hidden !important; background-color: #050a10 !important; }}
-    #MainMenu {{ visibility: hidden; }}
+    
+    header, footer, [data-testid="stStatusWidget"], #MainMenu, 
+    .viewerBadge_container, div[class*="viewerBadge"], 
+    footer, .stFooter, a[href*="streamlit.io/cloud"] {{
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        height: 0 !important;
+        pointer-events: none !important;
+    }}
 
     .wave-background {{
         position: fixed;
@@ -179,18 +187,6 @@ st.markdown(f"""
         background-color: #00A8FF;
         color: #FFFFFF;
     }}
-    
-    .footer-links {{
-        text-align: center;
-        color: #64748B;
-        font-size: 11px;
-        margin-top: 10px;
-    }}
-    
-    .footer-links a {{
-        color: #38BDF8;
-        text-decoration: none;
-    }}
 
     {css_ancho_total}
     </style>
@@ -290,4 +286,4 @@ else:
 
     url_activa = urls.get(vista_actual)
     if url_activa:
-        st.components.v1.iframe(url_activa, height=850, scrolling=True)
+        st.components.v1.iframe(url_activa, height=900, scrolling=True)
