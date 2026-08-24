@@ -19,42 +19,61 @@ urls = {
 query_params = st.query_params
 vista_actual = query_params.get("vista", "home")
 
-# Si el usuario seleccionó una vista interna, redirigimos limpiamente al sitio externo sin iframe
+# Si se seleccionó una vista interna, mostramos una pantalla limpia con un botón chingón y legible para entrar o volver
 if vista_actual in urls:
     url_destino = urls[vista_actual]
-    # Inyectamos script de redirección inmediata limpia y botón de retorno flotante por si quieren regresar
     st.markdown(f"""
         <style>
-            .stApp {{ background-color: #050a10 !important; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }}
+            .stApp {{ background-color: #050a10 !important; color: white; font-family: sans-serif; }}
             header, footer {{ display: none !important; }}
-            .loader-box {{ text-align: center; }}
-            .btn-regresar {{
-                display: inline-block;
-                margin-top: 20px;
-                padding: 10px 20px;
+            .redirect-container {{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 85vh;
+                text-align: center;
+                padding: 20px;
+            }}
+            .btn-entrar {{
+                display: block;
+                width: 100%;
+                max-width: 320px;
+                padding: 14px 20px;
                 background-color: #00A8FF;
-                color: white;
+                color: #ffffff !important;
                 text-decoration: none;
-                border-radius: 8px;
-                font-weight: bold;
+                border-radius: 12px;
+                font-weight: 700;
+                font-size: 16px;
+                margin-bottom: 15px;
+                box-shadow: 0 4px 12px rgba(0, 168, 255, 0.3);
+            }}
+            .btn-regresar {{
+                display: block;
+                width: 100%;
+                max-width: 320px;
+                padding: 12px 20px;
+                background-color: #132238;
+                color: #38BDF8 !important;
+                border: 1px solid #1E3A60;
+                text-decoration: none;
+                border-radius: 12px;
+                font-weight: 600;
+                font-size: 14px;
             }}
         </style>
-        <div class="loader-box">
-            <h3>Abriendo sistema...</h3>
-            <p>Si no redirige automáticamente, haz clic abajo:</p>
-            <a href="{url_destino}" class="btn-regresar" target="_self">Entrar al sistema</a>
-            <br><br>
-            <a href="?vista=home" class="btn-regresar" style="background-color: #1E2D4A;" target="_self">← Volver al Inicio</a>
+        <div class="redirect-container">
+            <h2 style="color: white; margin-bottom: 8px;">Acceso al Sistema</h2>
+            <p style="color: #94A3B8; font-size: 13px; margin-bottom: 30px;">Presiona el botón para abrir la aplicación seleccionada:</p>
+            <a href="{url_destino}" class="btn-entrar" target="_self">🚀 Abrir Aplicación</a>
+            <a href="?vista=home" class="btn-regresar" target="_self">← Volver al Menú Principal</a>
         </div>
-        <script>
-            // Redirección automática inmediata
-            window.location.href = "{url_destino}";
-        </script>
     """, unsafe_allow_html=True)
     st.stop()
 
 # -------------------------------------------------------------------------
-# VISTA PRINCIPAL (HOME) - Limpia de cualquier porquería de iframes
+# VISTA PRINCIPAL (HOME)
 # -------------------------------------------------------------------------
 st.markdown("""
     <style>
